@@ -1,16 +1,22 @@
-import { Box } from "@mui/material"
-import HeaderWithSearchBar from "./components/header/Header"
-import ResponsiveAppBar from "./components/appbar/Appbar"
+import Layout from './components/Layout/Layout'
+import ProductsDispatch from './dispatch/ProductsDispatch'
+import HomePage from './pages/HomePage'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import MensPage from './pages/MensPage'
 
 function App() {
 
   return (
     <>
-      <Box sx={{ backgroundColor: '#ffffff', height: '100vh', width: '100%'}}>
-        <HeaderWithSearchBar /> 
-        <ResponsiveAppBar />
-      </Box>
-      
+      <ProductsDispatch />
+      <BrowserRouter>
+        <Routes>
+          <Route path='' element={<Layout />}>
+            <Route index={true} element={<HomePage />} />
+            <Route path='men' element={<MensPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   )
 }

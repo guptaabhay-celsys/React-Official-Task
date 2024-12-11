@@ -8,41 +8,56 @@ const HeaderWithSearchBar = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        padding: '16px',
         backgroundColor: '#ffffff',
         width: '100%',
-        zIndex: 1000, 
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
+        padding: '60px 80px 30px 80px',
+        zIndex: '2',
         boxSizing: 'border-box',
       }}
     >
-      {/* Heading */}
       <Typography
         variant="h4"
-        sx={{ fontWeight: 'bold', fontFamily: 'Roboto, sans-serif', color: 'gray', paddingTop: '25px',
-            paddingLeft: '45px', }}
+        sx={{
+          fontWeight: 'bold',
+          fontFamily: 'Roboto, sans-serif',
+          color: '#565656',
+          letterSpacing: '1px',
+        }}
       >
         Footwear
       </Typography>
 
-      {/* Rounded Search Bar */}
       <TextField
         variant="outlined"
         placeholder="Search..."
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <SearchIcon sx={{ color: 'gray' }} />
+              <SearchIcon
+                sx={{
+                  color: 'white',
+                  backgroundColor: '#88c8bc', 
+                  borderRadius: '50%', 
+                  padding: '9px',
+                  position: 'absolute',
+                  right: '0px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  zIndex: 2,
+                  fontSize: '20px !important',
+                  boxSizing: 'unset'
+                }}
+              />
             </InputAdornment>
           ),
           sx: {
             borderRadius: '35px',
-            paddingRight: '8px',
+            height: '38px', 
+            paddingRight: '80px',
           },
         }}
         sx={{
-          width: '300px',
-          paddingRight: '45px',
+          width: '250px',
           '& .MuiOutlinedInput-root': {
             borderRadius: '35px',
             backgroundColor: '#fff',
@@ -50,10 +65,10 @@ const HeaderWithSearchBar = () => {
               borderColor: 'lightgray',
             },
             '&:hover fieldset': {
-              borderColor: 'black',
+              borderColor: 'lightgray',
             },
             '&.Mui-focused fieldset': {
-              borderColor: 'black',
+              borderColor: 'lightgray',
             },
           },
         }}

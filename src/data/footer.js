@@ -1,5 +1,4 @@
-{
-    "footer": {
+const footerData = {
        "about": {
           "title": "About Footwear",
           "description": "Even the all-powerful Pointing has no control over the blind texts, it is an almost unorthographic life."
@@ -26,11 +25,13 @@
           {"name": "Exhibitions", "url": "#"}
        ],
        "contact_information": {
-          "address": "291 South 21th Street, Suite 721 New York NY 10016",
+          "address": "291 South 21th Street", 
+          "steet": "Suite 721 New York NY 10016",
           "phone": "+ 1235 2355 98",
           "email": "info@yoursite.com",
           "website": "yoursite.com"
        }
     }
- }
+
+    export default footerData;
  
