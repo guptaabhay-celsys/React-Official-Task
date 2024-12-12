@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
-import ShopButton from '../../util/Button.jsx'
+import ShopButton from '../util/Button'
 
+// eslint-disable-next-line react/prop-types
 export default function ShoesCard({ image, text }) {
   return (
       <Box sx={{

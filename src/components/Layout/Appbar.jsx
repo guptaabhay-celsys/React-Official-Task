@@ -19,19 +19,28 @@ function ResponsiveAppBar() {
 
         <Button sx={{color: 'black', padding: '0', textAlign: 'left', '&:hover': { backgroundColor: 'transparent',}, '&:active': { backgroundColor: 'transparent' },}}>
           <NavLink
-            to='/men' style={({ isActive }) => ({ color: isActive ? '#88c8bc' : 'inherit', textDecoration: 'none', })}>
+            to='men' style={({ isActive }) => ({ color: isActive ? '#88c8bc' : 'inherit', textDecoration: 'none', })}>
             MEN
           </NavLink>
         </Button>
-              <Button sx={{ color: 'black', padding: '0', textAlign: 'left'}} >
-                WOMEN
-              </Button>
-              <Button sx={{ color: 'black', padding: '0', textAlign: 'left'}} >
-                ABOUT
-              </Button>
-              <Button sx={{ color: 'black', padding: '0', textAlign: 'left'}} >
-                CONTACT
-              </Button>
+        <Button sx={{color: 'black', padding: '0', textAlign: 'left', '&:hover': { backgroundColor: 'transparent',}, '&:active': { backgroundColor: 'transparent' },}}>
+          <NavLink
+            to='women' style={({ isActive }) => ({ color: isActive ? '#88c8bc' : 'inherit', textDecoration: 'none', })}>
+            WOMEN
+          </NavLink>
+        </Button>
+        <Button sx={{color: 'black', padding: '0', textAlign: 'left', '&:hover': { backgroundColor: 'transparent',}, '&:active': { backgroundColor: 'transparent' },}}>
+          <NavLink
+            to='about' style={({ isActive }) => ({ color: isActive ? '#88c8bc' : 'inherit', textDecoration: 'none', })}>
+            ABOUT
+          </NavLink>
+        </Button>
+        <Button sx={{color: 'black', padding: '0', textAlign: 'left', '&:hover': { backgroundColor: 'transparent',}, '&:active': { backgroundColor: 'transparent' },}}>
+          <NavLink
+            to='contact' style={({ isActive }) => ({ color: isActive ? '#88c8bc' : 'inherit', textDecoration: 'none', })}>
+            CONTACT
+          </NavLink>
+        </Button>
           </Box>
           <Box sx={{ flexGrow: 0, display: 'flex', gap: '5px', color: 'black' }}>
             <ShoppingCartIcon />

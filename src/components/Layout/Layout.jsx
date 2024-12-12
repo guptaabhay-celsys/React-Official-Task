@@ -3,7 +3,6 @@ import HeaderWithSearchBar from './Header';
 import Footer from './Footer';
 import ResponsiveAppBar from './Appbar';
 import Discount from './Discount';
-import Partners from './Partners';
 
 export default function Layout() {
   return (
@@ -12,7 +11,6 @@ export default function Layout() {
       <ResponsiveAppBar />
       <Discount />
       <Outlet />
-      <Partners />
       <Footer />
     </>
   );
