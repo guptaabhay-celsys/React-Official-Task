@@ -3,6 +3,7 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import VideoThumbnail from "../../assets/Other Images/Video-Thumbnail.jpg";
 import { useState } from "react";
 import aboutData from "../../data/aboutSectionData";
+import promoVideo from '../../assets/nike-ads.mp4'
 
 export default function VideoSection() {
   const [open, setOpen] = useState(false);
@@ -11,7 +12,7 @@ export default function VideoSection() {
   const handleClose = () => setOpen(false);
 
   return (
-    <Box sx={{ flexGrow: 1, padding: "98px 75px" }}>
+    <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={4} alignItems="start">
         <Grid item xs={12} md={6}>
           <Box
@@ -65,10 +66,14 @@ export default function VideoSection() {
                 backgroundColor: "#88c8bc",
                 color: "white",
                 transition: "transform 0.5s ease",
+                "&:hover": {
+                  backgroundColor: "#88c8bc",
+                },
               }}
             >
               <PlayArrowIcon sx={{ fontSize: "40px" }} />
             </IconButton>
+
           </Box>
         </Grid>
 
@@ -132,7 +137,7 @@ export default function VideoSection() {
       >
         <Box sx={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
           <iframe
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            src={promoVideo}
             title="Video Player"
             allow="autoplay; encrypted-media"
             allowFullScreen

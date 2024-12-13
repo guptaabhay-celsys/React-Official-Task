@@ -6,6 +6,7 @@ import MensPage from './pages/MensPage'
 import WomensPage from './pages/WomensPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
+import CartPage from './pages/CartPage'
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
             <Route path='women' element={<WomensPage/>} />
             <Route path='about' element={<AboutPage/>} />
             <Route path='contact' element={<ContactPage/>} />
+            <Route path='cart' element={<CartPage/>} />
           </Route>
         </Routes>
       </BrowserRouter>

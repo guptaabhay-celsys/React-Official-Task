@@ -54,7 +54,7 @@ export default function Footer() {
               fontSize: "14px",
               fontFamily: "Montserrat, Arial, sans-serif",
               fontWeight: 300,
-              color: "#595959",
+              color: "#909090",
               lineHeight: 1.8,
               wordWrap: "break-word",
             }}
@@ -62,10 +62,10 @@ export default function Footer() {
             {about.description}
           </Typography>
           <Box sx={{ display: "flex", gap: "14px", marginTop: "16px" }}>
-            <XIcon sx={{ color: "#616161", fontSize: "24px", cursor: "pointer" }} />
-            <FacebookIcon sx={{ color: "#616161", fontSize: "24px", cursor: "pointer" }} />
-            <LinkedInIcon sx={{ color: "#616161", fontSize: "24px", cursor: "pointer" }} />
-            <SportsBasketballIcon sx={{ color: "#616161", fontSize: "24px", cursor: "pointer" }} />
+            <XIcon sx={{ color: "#707070", fontSize: "24px", cursor: "pointer" }} />
+            <FacebookIcon sx={{ color: "#707070", fontSize: "24px", cursor: "pointer" }} />
+            <LinkedInIcon sx={{ color: "#707070", fontSize: "24px", cursor: "pointer" }} />
+            <SportsBasketballIcon sx={{ color: "#707070", fontSize: "24px", cursor: "pointer" }} />
           </Box>
         </Box>
 
@@ -90,13 +90,13 @@ export default function Footer() {
                 fontSize: "14px",
                 fontFamily: "Montserrat, Arial, sans-serif",
                 fontWeight: 300,
-                color: "#595959",
+                color: "#909090",
                 lineHeight: 1.8,
                 textTransform: "uppercase",
                 marginBottom: "10px",
               }}
             >
-              <a href={data.url} style={{ color: "#595959", textDecoration: "none" }}>
+              <a href={data.url} style={{ color: "#909090", textDecoration: "none" }}>
                 {data.name}
               </a>
             </Typography>
@@ -124,13 +124,13 @@ export default function Footer() {
                 fontSize: "14px",
                 fontFamily: "Montserrat, Arial, sans-serif",
                 fontWeight: 300,
-                color: "#595959",
+                color: "#909090",
                 lineHeight: 1.8,
                 textTransform: "uppercase",
                 marginBottom: "10px",
               }}
             >
-              <a href={data.url} style={{ color: "#595959", textDecoration: "none" }}>
+              <a href={data.url} style={{ color: "#909090", textDecoration: "none" }}>
                 {data.name}
               </a>
             </Typography>
@@ -158,13 +158,13 @@ export default function Footer() {
                 fontSize: "14px",
                 fontFamily: "Montserrat, Arial, sans-serif",
                 fontWeight: 300,
-                color: "#595959",
+                color: "#909090",
                 lineHeight: 1.8,
                 textTransform: "uppercase",
                 marginBottom: "10px",
               }}
             >
-              <a href={data.url} style={{ color: "#595959", textDecoration: "none" }}>
+              <a href={data.url} style={{ color: "#909090", textDecoration: "none" }}>
                 {data.name}
               </a>
             </Typography>
@@ -190,7 +190,7 @@ export default function Footer() {
               fontSize: "14px",
               fontFamily: "Montserrat, Arial, sans-serif",
               fontWeight: 300,
-              color: "#595959",
+              color: "#909090",
               lineHeight: 1.8,
               textTransform: "uppercase",
               marginBottom: "10px",
@@ -204,7 +204,7 @@ export default function Footer() {
               fontSize: "14px",
               fontFamily: "Montserrat, Arial, sans-serif",
               fontWeight: 300,
-              color: "#595959",
+              color: "#909090",
               lineHeight: 1.8,
               textTransform: "uppercase",
               marginBottom: "10px",
@@ -218,7 +218,7 @@ export default function Footer() {
               fontSize: "14px",
               fontFamily: "Montserrat, Arial, sans-serif",
               fontWeight: 300,
-              color: "#595959",
+              color: "#909090",
               lineHeight: 1.8,
               textTransform: "uppercase",
               marginBottom: "10px",
@@ -232,7 +232,7 @@ export default function Footer() {
       <Typography
         variant="body1"
         sx={{
-          color: "#595959",
+          color: "#909090",
           textAlign: "center",
           marginTop: "30px",
         }}

@@ -29,7 +29,7 @@ const HeaderWithSearchBar = () => {
 
       <TextField
         variant="outlined"
-        placeholder="Search..."
+        placeholder="Search"
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
@@ -58,6 +58,7 @@ const HeaderWithSearchBar = () => {
         }}
         sx={{
           width: '250px',
+          fontSize: '13px',
           '& .MuiOutlinedInput-root': {
             borderRadius: '35px',
             backgroundColor: '#fff',
