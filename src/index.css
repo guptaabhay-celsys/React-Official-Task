@@ -11,3 +11,17 @@ html, body {
 main {
   padding-top: 80px; 
 }
+
+.link-hover-white {
+  text-decoration: none;
+  color: #616161;
+}
+
+.link-hover-white:hover {
+  color: white;
+}
+
+::selection {
+  color: white; 
+  background-color: #616161; 
+}

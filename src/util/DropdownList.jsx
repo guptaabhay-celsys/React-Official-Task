@@ -1,16 +1,17 @@
 import { Menu, MenuItem } from '@mui/material';
 import { forwardRef, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 const DropdownList = forwardRef(({ anchorEl, open, onClose }, ref) => {
   const [anchorElRect, setAnchorElRect] = useState(null);
 
   const options = [
-    { label: 'Product Detail', path: '/men/product-detail' },
-    { label: 'Shopping Cart', path: '/men/shopping-cart' },
-    { label: 'Checkout', path: '/men/checkout' },
-    { label: 'Order Complete', path: '/men/order-complete' },
-    { label: 'Wishlist', path: '/men/wishlist' },
+    { label: 'Product Detail', path: 'product details' },
+    { label: 'Shopping Cart', path: 'shopping cart' },
+    { label: 'Checkout', path: 'checkout' },
+    { label: 'Order Complete', path: 'order-complete' },
+    { label: 'Wishlist', path: 'wishlist' },
   ];
 
   useEffect(() => {
@@ -50,6 +51,8 @@ const DropdownList = forwardRef(({ anchorEl, open, onClose }, ref) => {
       anchorEl={anchorEl}
       open={open}
       onClose={onClose}
+      // eslint-disable-next-line no-undef
+      onOptionSelect={() => handleButtonClick('men', '/men')}
       sx={{
         '& .MuiPaper-root': {
           backgroundColor: 'black',
@@ -66,16 +69,32 @@ const DropdownList = forwardRef(({ anchorEl, open, onClose }, ref) => {
     >
       {options.map((option) => (
         <MenuItem
-          key={option.label}
-          onClick={onClose}
-          sx={{
-            '&:hover': {
-              color: 'white',
-            },
+        key={option.label}
+        onClick={() => {
+          const navigateTo = option.path === 'shopping cart' ? '/cart' : `/${option.path}`;
+          window.location.href = navigateTo;
+      
+          setTimeout(onClose, 200); 
+        }}
+        sx={{
+          '&:hover': {
+            color: 'white',
+          },
+        }}
+      >
+        <Link
+          to={option.path === 'shopping cart' ? '/cart' : `/${option.path}`}
+          style={{
+            color: 'inherit',
+            textDecoration: 'none',
+            display: 'block',
           }}
         >
           {option.label}
-        </MenuItem>
+        </Link>
+      </MenuItem>
+      
+      
       ))}
     </Menu>
   );

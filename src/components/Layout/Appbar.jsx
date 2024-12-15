@@ -2,12 +2,14 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import DropdownList from '../../util/DropdownList';
 import { useState } from 'react';
 
 function ResponsiveAppBar() {
   const [anchorEl, setAnchorEl] = useState(null);
+  const [activeButton, setActiveButton] = useState('');
+  const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -15,6 +17,11 @@ function ResponsiveAppBar() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleButtonClick = (button, path) => {
+    setActiveButton(button);
+    if (path) navigate(path); 
   };
 
   return (
@@ -30,7 +37,7 @@ function ResponsiveAppBar() {
         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', gap: '10px' } }}>
           <Button
             sx={{
-              color: 'black',
+              color: activeButton === 'home' ? '#88c8bc' : 'black',
               padding: '0',
               textAlign: 'left',
               '&:hover': { backgroundColor: 'transparent' },
@@ -38,48 +45,43 @@ function ResponsiveAppBar() {
             }}
           >
             <NavLink
-              to=""
-              style={({ isActive }) => ({
-                color: isActive ? '#88c8bc' : 'inherit',
+              to="/"
+              onClick={() => handleButtonClick('home')}
+              style={{
+                color: activeButton === 'home' ? '#88c8bc' : 'inherit',
                 textDecoration: 'none',
-              })}
+              }}
               end
             >
               HOME
             </NavLink>
           </Button>
 
+          {/* MEN Button */}
           <Button
             id="men-button"
-            onMouseEnter={handleMenuOpen}
-            onMouseLeave={handleMenuClose}
+            onClick={() => handleButtonClick('men', '/men')}
+            onMouseEnter={handleMenuOpen} 
+            onMouseLeave={handleMenuClose} 
             sx={{
-              color: 'black',
+              color: activeButton === 'men' ? '#88c8bc' : 'black',
               padding: '0',
               textAlign: 'left',
-              '&:hover': {
-                backgroundColor: 'transparent',
-                color: '#88c8bc',
-              },
+              '&:hover': { backgroundColor: 'transparent' },
               '&:active': { backgroundColor: 'transparent' },
             }}
           >
-            <NavLink
-              to="men"
-              style={({ isActive }) => ({
-                color: isActive ? '#88c8bc' : 'inherit',
-                textDecoration: 'none',
-              })}
-            >
-              MEN
-            </NavLink>
-            <DropdownList anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} />
+            MEN
+            <DropdownList
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+            />
           </Button>
-
 
           <Button
             sx={{
-              color: 'black',
+              color: activeButton === 'women' ? '#88c8bc' : 'black',
               padding: '0',
               textAlign: 'left',
               '&:hover': { backgroundColor: 'transparent' },
@@ -87,18 +89,20 @@ function ResponsiveAppBar() {
             }}
           >
             <NavLink
-              to="women"
-              style={({ isActive }) => ({
-                color: isActive ? '#88c8bc' : 'inherit',
+              to="/women"
+              onClick={() => handleButtonClick('women')}
+              style={{
+                color: activeButton === 'women' ? '#88c8bc' : 'inherit',
                 textDecoration: 'none',
-              })}
+              }}
             >
               WOMEN
             </NavLink>
           </Button>
+
           <Button
             sx={{
-              color: 'black',
+              color: activeButton === 'about' ? '#88c8bc' : 'black',
               padding: '0',
               textAlign: 'left',
               '&:hover': { backgroundColor: 'transparent' },
@@ -106,18 +110,20 @@ function ResponsiveAppBar() {
             }}
           >
             <NavLink
-              to="about"
-              style={({ isActive }) => ({
-                color: isActive ? '#88c8bc' : 'inherit',
+              to="/about"
+              onClick={() => handleButtonClick('about')}
+              style={{
+                color: activeButton === 'about' ? '#88c8bc' : 'inherit',
                 textDecoration: 'none',
-              })}
+              }}
             >
               ABOUT
             </NavLink>
           </Button>
+
           <Button
             sx={{
-              color: 'black',
+              color: activeButton === 'contact' ? '#88c8bc' : 'black',
               padding: '0',
               textAlign: 'left',
               '&:hover': { backgroundColor: 'transparent' },
@@ -125,11 +131,12 @@ function ResponsiveAppBar() {
             }}
           >
             <NavLink
-              to="contact"
-              style={({ isActive }) => ({
-                color: isActive ? '#88c8bc' : 'inherit',
+              to="/contact"
+              onClick={() => handleButtonClick('contact')}
+              style={{
+                color: activeButton === 'contact' ? '#88c8bc' : 'inherit',
                 textDecoration: 'none',
-              })}
+              }}
             >
               CONTACT
             </NavLink>
@@ -139,11 +146,12 @@ function ResponsiveAppBar() {
           <ShoppingCartIcon />
           <Typography sx={{ letterSpacing: '2px' }}>
             <NavLink
-              to="cart"
-              style={({ isActive }) => ({
-                color: isActive ? 'black' : 'inherit',
+              to="/cart"
+              onClick={() => handleButtonClick('cart')}
+              style={{
+                color: activeButton === 'cart' ? 'black' : 'inherit',
                 textDecoration: 'none',
-              })}
+              }}
             >
               CART [0]
             </NavLink>

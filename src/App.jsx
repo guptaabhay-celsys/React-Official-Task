@@ -7,6 +7,10 @@ import WomensPage from './pages/WomensPage'
 import AboutPage from './pages/AboutPage'
 import ContactPage from './pages/ContactPage'
 import CartPage from './pages/CartPage'
+import CheckoutPage from './pages/CheckoutPage'
+import OrderCompletePage from './pages/OrderCompletePage'
+import WishlistPage from './pages/WishlistPage'
+import ProductDetailsPage from './pages/ProductDetailsPage'
 
 function App() {
 
@@ -22,6 +26,10 @@ function App() {
             <Route path='about' element={<AboutPage/>} />
             <Route path='contact' element={<ContactPage/>} />
             <Route path='cart' element={<CartPage/>} />
+            <Route path='checkout' element={<CheckoutPage/>} />
+            <Route path='order-complete' element={<OrderCompletePage/>} />
+            <Route path='wishlist' element={<WishlistPage/>} />
+            <Route path='product details' element={<ProductDetailsPage/>} />
           </Route>
         </Routes>
       </BrowserRouter>

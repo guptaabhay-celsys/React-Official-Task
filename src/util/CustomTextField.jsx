@@ -1,12 +1,12 @@
 import { Box, TextField, Typography } from '@mui/material';
 
 // eslint-disable-next-line react/prop-types
-const CustomTextField = ({ label, placeholder, multiline = false, rows = 1 }) => {
+const CustomTextField = ({ label, placeholder, multiline = false, rows = 1, style }) => {
   return (
     <Box sx={{ marginBottom: '24px' }}>
       <Typography
         variant="body1"
-        sx={{ marginBottom: '8px', color: '#595959' }}
+        sx={{ marginBottom: '8px', color: '#595959', ...style }}
       >
         {label}
       </Typography>

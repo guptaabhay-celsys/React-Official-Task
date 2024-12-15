@@ -4,7 +4,8 @@ import { useState } from "react";
 import image from '../../assets/images/item-3.jpg';
 import { currencyFormatter } from "../../util/formatting";
 
-export default function ProductSection() {
+// eslint-disable-next-line react/prop-types
+export default function ProductSection({cosmetic}) {
   const [quantity, setQuantity] = useState(1); 
   const price = 100; 
   const total = price * quantity;
@@ -26,6 +27,7 @@ export default function ProductSection() {
         borderBottom: "1px solid lightgray",
         padding: "20px 4px",
         marginBottom: "104px",
+        ...cosmetic
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", flex: 1 }}>

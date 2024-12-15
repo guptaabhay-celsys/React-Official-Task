@@ -9,82 +9,96 @@ import Typography from '@mui/material/Typography';
 
 const CustomConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 38,
+    top: 40,
   },
   [`&.${stepConnectorClasses.line}`]: {
     height: 2,
     border: 0,
-    backgroundColor: theme.palette.grey[300],
+    backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : theme.palette.grey[300],
     borderRadius: 1,
   },
 }));
 
-const CustomStepIconRoot = styled('div')(() => ({
+const CustomStepIconRoot = styled('div')(({ theme, ownerState }) => ({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
   position: 'relative',
+  ...(ownerState.active && {
+    color: theme.palette.primary.main,
+  }),
 }));
 
 const Circle = styled('div')(({ ownerState }) => ({
   width: 80,
   height: 80,
   borderRadius: '50%',
-  border: `2px solid ${ownerState.active ? 'gray' : 'lightgray'}`,
+  border: `2px solid ${ownerState.active || ownerState.completed ? 'lightgray' : '#f0f0f0'}`,
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: ownerState.active ? '#88c8bc' : '#595959',
-  backgroundColor: 'white',
+  color: ownerState.active || ownerState.completed ? '#88c8bc' : '#595959',
+  backgroundColor: '#fff',
   fontSize: '1rem',
   fontFamily: 'Montserrat, Arial, sans-serif',
   fontWeight: 'normal',
-  zIndex:'2'
+  zIndex: 2
 }));
 
-const StepText = styled(Typography)(({ theme}) => ({
+const StepText = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(1),
-  color: '#5959595',
+  color: '#595959',
   textTransform: 'uppercase',
   fontWeight: 'normal',
   letterSpacing: '1px',
   fontSize: '12px',
-  fontFamily: 'Montserrat, Arial, sans-serif'
+  fontFamily: 'Montserrat, Arial, sans-serif',
 }));
+
 
 function CustomStepIcon(props) {
   const { active, completed, icon } = props;
 
   return (
     <CustomStepIconRoot ownerState={{ active, completed }}>
-      <Circle ownerState={{ active }}>{icon}</Circle>
-      <StepText ownerState={{ active }}>{steps[icon - 1]}</StepText>
+      <Circle ownerState={{ active, completed }}>{icon}</Circle>
+      <StepText>{steps[icon - 1]}</StepText>
     </CustomStepIconRoot>
   );
 }
 
 CustomStepIcon.propTypes = {
   active: PropTypes.bool,
-  className: PropTypes.string,
   completed: PropTypes.bool,
   icon: PropTypes.node,
 };
 
 const steps = ['Shopping Cart', 'Checkout', 'Order Complete'];
 
-export default function CustomizedSteppers() {
+// eslint-disable-next-line react/prop-types
+export default function CustomizedSteppers({ activeStep, cosmetic }) {
   return (
-    <Stack sx={{ width: '100%' }} spacing={4}>
-      <Stepper alternativeLabel activeStep={0} connector={<CustomConnector />}>
+    <Stack sx={{ width: '100%', ...cosmetic }} spacing={4}>
+      <Stepper
+        alternativeLabel
+        activeStep={activeStep} 
+        connector={<CustomConnector />}
+      >
         {steps.map((label, index) => (
           <Step key={label}>
-            <StepLabel StepIconComponent={(props) => <CustomStepIcon {...props} icon={ `0` + `${index + 1}`} />}>
-              {/* No need for additional label here; handled in CustomStepIcon */}
-            </StepLabel>
+            <StepLabel
+              StepIconComponent={(props) => (
+                <CustomStepIcon {...props} active={index <= activeStep} completed={index < activeStep} icon={`0` + `${index + 1}`} />
+              )}
+            />
           </Step>
         ))}
       </Stepper>
     </Stack>
   );
 }
+
+CustomizedSteppers.propTypes = {
+  activeStep: PropTypes.number.isRequired,
+};
