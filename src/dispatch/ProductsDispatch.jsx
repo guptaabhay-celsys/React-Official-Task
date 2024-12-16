@@ -45,7 +45,7 @@ export default function ProductsDispatch(){
           },
           {
             "id": "p4",
-            "name": "Russ Men's Sneakers",
+            "name": "Russ Men's Blue Sneakers",
             "price": "8.99",
             "image": image4
           },

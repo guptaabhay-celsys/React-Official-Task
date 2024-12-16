@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Typography, Button } from '@mui/material';
 
 // eslint-disable-next-line react/prop-types
 const ProductCard = ({ id, image, name, price, currencyFormatter }) => {
@@ -64,6 +64,9 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }) => {
           >
             Price: {currencyFormatter.format(price)}
           </Typography>
+          <Button variant="standard" sx={{backgroundColor: '#616161', borderRadius: '4px', color: 'white', textTransform: 'none', marginTop: '10px'}}>
+            Add to Cart
+          </Button>
         </CardContent>
       </CardActionArea>
     </Card>

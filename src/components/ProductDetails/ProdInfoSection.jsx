@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import relatedProductsData from "../../data/relatedProductsData";
 import StarIcon from '@mui/icons-material/Star';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
@@ -9,24 +9,66 @@ import ProdSize from "../../util/ProdSize";
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 
 export default function ProductDetail() {
-    const product = relatedProductsData[0];
+    const [activeStep, setActiveStep] = useState(0);
     const [prodCount, setProdCount] = useState(0);
+
+    const product = relatedProductsData[activeStep]; 
+
+    const handleProductClick = (index) => {
+        setActiveStep(index);
+    };
 
     return (
         <Box sx={{ display: 'flex', gap: '30px' }}>
-            <Box
-                sx={{
-                    width: '100%',
-                    height: '650px',
-                    backgroundImage: `url(${product.image})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    position: 'relative',
-                    flex: '2',
-                }}
-            ></Box>
+            <Box sx={{ flex: '2.5', position: 'relative' }}>
+                <Box sx={{ position: 'relative', width: '100%', height: '760px' }}>
+                    {relatedProductsData.map((product, index) => (
+                    <Box
+                        key={index}
+                        sx={{
+                        width: '100%',
+                        height: '750px !important',
+                        border: '1px solid lightgray',
+                        backgroundImage: `url(${product.image})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        position: 'absolute', 
+                        top: 0, 
+                        left: 0,
+                        transform: `scale(${activeStep === index ? 1 : 0.95})`,
+                        opacity: activeStep === index ? 1 : 0, 
+                        pointerEvents: activeStep === index ? 'auto' : 'none', 
+                        transition: 'transform 1s ease, opacity 0.1s ease', 
+                        }}
+                    ></Box>
+                    ))}
+                </Box>
 
-            <Box sx={{ flex: '1', padding: '0 28px' }}>
+                <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+                    {relatedProductsData.map((_, index) => (
+                    <IconButton
+                        key={index}
+                        onClick={() => handleProductClick(index)}
+                        sx={{
+                        margin: '0 5px',
+                        height: '10px !important',
+                        width: '10px',
+                        borderRadius: '50%',
+                        backgroundColor: activeStep === index ? 'gray' : 'lightgray',
+                        '&:hover': {
+                            backgroundColor: 'gray',
+                        },
+                        padding: '4px', 
+                        }}
+                    />
+                    ))}
+                </Box>
+                </Box>
+
+
+
+
+            <Box sx={{ flex: '1', padding: '0 0 0 28px' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                     <Typography
                         variant="body1"
@@ -53,41 +95,11 @@ export default function ProductDetail() {
                             marginBottom: '20px',
                         }}
                     >
-                        <StarIcon
-                            sx={{
-                                color: '#616161',
-                                verticalAlign: 'middle',
-                                fontSize: '16px',
-                            }}
-                        />
-                        <StarIcon
-                            sx={{
-                                color: '#616161',
-                                verticalAlign: 'middle',
-                                fontSize: '16px',
-                            }}
-                        />
-                        <StarIcon
-                            sx={{
-                                color: '#616161',
-                                verticalAlign: 'middle',
-                                fontSize: '16px',
-                            }}
-                        />
-                        <StarIcon
-                            sx={{
-                                color: '#616161',
-                                verticalAlign: 'middle',
-                                fontSize: '16px',
-                            }}
-                        />
-                        <StarHalfIcon
-                            sx={{
-                                color: '#616161',
-                                verticalAlign: 'middle',
-                                fontSize: '16px',
-                            }}
-                        />
+                        <StarIcon sx={{ color: '#616161', fontSize: '16px' }} />
+                        <StarIcon sx={{ color: '#616161', fontSize: '16px' }} />
+                        <StarIcon sx={{ color: '#616161', fontSize: '16px' }} />
+                        <StarIcon sx={{ color: '#616161', fontSize: '16px' }} />
+                        <StarHalfIcon sx={{ color: '#616161', fontSize: '16px' }} />
                         (74 Ratings)
                     </Typography>
                 </Box>
@@ -96,7 +108,7 @@ export default function ProductDetail() {
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: '16px',
+                            fontSize: '15px',
                             letterSpacing: '0.5px',
                             lineHeight: '1.8',
                             color: '#909090',
@@ -104,8 +116,8 @@ export default function ProductDetail() {
                         }}
                     >
                         Even the all-powerful Pointing has no control about the
-                        blind texts it is an almost unorthographic life One day
-                        however a small line of blind text by the name of Lorem
+                        blind texts. It is an almost unorthographic life. One day,
+                        however, a small line of blind text by the name of Lorem
                         Ipsum decided to leave for the far World of Grammar.
                     </Typography>
                 </Box>
@@ -128,9 +140,7 @@ export default function ProductDetail() {
                             justifyContent: 'center',
                             fontSize: '14px',
                             transition: 'background-color 0.5s ease',
-                            '&:hover': {
-                                backgroundColor: 'gray',
-                            },
+                            '&:hover': { backgroundColor: 'gray' },
                         }}
                         onClick={() => setProdCount((prevCount) => Math.max(prevCount - 1, 0))}
                     >
@@ -167,9 +177,7 @@ export default function ProductDetail() {
                             justifyContent: 'center',
                             fontSize: '14px',
                             transition: 'background-color 0.5s ease',
-                            '&:hover': {
-                                backgroundColor: 'gray',
-                            },
+                            '&:hover': { backgroundColor: 'gray' },
                         }}
                         onClick={() => setProdCount((prevCount) => prevCount + 1)}
                     >

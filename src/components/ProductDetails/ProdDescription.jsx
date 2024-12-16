@@ -2,6 +2,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useState } from "react";
 import productDescription from "../../data/productDescriptionData";
 import productManufacturer from "../../data/productManufacturerData";
+import ReviewSection from "./ReviewSection/ReviewSection";
 
 export default function ProdDescription() {
   const [activeButton, setActiveButton] = useState("Description");
@@ -43,7 +44,7 @@ export default function ProdDescription() {
     } else if (activeButton === "Review") {
       return (
         <Typography variant="body1" sx={{ color: '#909090', marginBottom: '20px', fontSize: '16px' }}>
-          {"Review content goes here."}
+          <ReviewSection />
         </Typography>
       );
     }

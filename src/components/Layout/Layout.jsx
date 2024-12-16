@@ -3,6 +3,7 @@ import HeaderWithSearchBar from './Header';
 import Footer from './Footer';
 import ResponsiveAppBar from './Appbar';
 import Discount from './Discount';
+import ShiftUpButton from '../../util/ShiftUpButton';
 
 export default function Layout() {
   return (
@@ -12,6 +13,7 @@ export default function Layout() {
       <Discount />
       <Outlet />
       <Footer />
+      <ShiftUpButton />
     </>
   );
 }
