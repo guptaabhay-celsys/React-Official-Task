@@ -7,8 +7,8 @@ const DropdownList = forwardRef(({ anchorEl, open, onClose }, ref) => {
   const [anchorElRect, setAnchorElRect] = useState(null);
 
   const options = [
-    { label: 'Product Detail', path: 'product details' },
-    { label: 'Shopping Cart', path: 'shopping cart' },
+    { label: 'Product Detail', path: 'product-details' },
+    { label: 'Shopping Cart', path: 'shopping-cart' },
     { label: 'Checkout', path: 'checkout' },
     { label: 'Order Complete', path: 'order-complete' },
     { label: 'Wishlist', path: 'wishlist' },

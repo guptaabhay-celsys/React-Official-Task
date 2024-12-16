@@ -29,7 +29,7 @@ function App() {
             <Route path='checkout' element={<CheckoutPage/>} />
             <Route path='order-complete' element={<OrderCompletePage/>} />
             <Route path='wishlist' element={<WishlistPage/>} />
-            <Route path='product details' element={<ProductDetailsPage/>} />
+            <Route path='product-details' element={<ProductDetailsPage/>} />
           </Route>
         </Routes>
       </BrowserRouter>

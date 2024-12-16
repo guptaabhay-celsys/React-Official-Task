@@ -14,7 +14,7 @@ export default function ProdDescription() {
   const renderContent = () => {
     if (activeButton === "Description") {
       return (
-        <>
+        <Box>
           <Typography variant="body1" sx={{ color: '#909090', marginBottom: '20px', fontSize: '16px' }}>
             {productDescription.para1}
           </Typography>
@@ -28,7 +28,7 @@ export default function ProdDescription() {
               ))}
             </ul>
           </Typography>
-        </>
+        </Box>
       );
     } else if (activeButton === "Manufacturer") {
       return (
@@ -51,7 +51,7 @@ export default function ProdDescription() {
   };
 
   return (
-    <Box sx={{ marginTop: '98px', display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ marginTop: '98px', display: 'flex', flexDirection: 'column', marginBottom: '196px' }}>
       <Box sx={{ display: 'flex', gap: '2px', marginBottom: '16px' }}>
         {["Description", "Manufacturer", "Review"].map((buttonName) => (
           <Button
