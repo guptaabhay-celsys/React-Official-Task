@@ -1,12 +1,12 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, List, ListItem, Typography } from "@mui/material";
 import { useState } from "react";
 import productDescription from "../../data/productDescriptionData";
 import productManufacturer from "../../data/productManufacturerData";
 import ReviewSection from "./ReviewSection/ReviewSection";
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 export default function ProdDescription() {
   const [activeButton, setActiveButton] = useState("Description");
-
   const handleButtonClick = (buttonName) => {
     setActiveButton(buttonName);
   };
@@ -22,11 +22,11 @@ export default function ProdDescription() {
             {productDescription.para2}
           </Typography>
           <Typography variant="body1" sx={{ color: '#909090', marginBottom: '20px', fontSize: '16px', paddingLeft: '40px' }}>
-            <ul>
+            <List>
               {productDescription.list.map((item, index) => (
-                <li key={index}>{item}</li>
+                <ListItem key={index}><FiberManualRecordIcon sx={{fontSize: '10px', marginRight: '5px'}}/>{item}</ListItem>
               ))}
-            </ul>
+            </List>
           </Typography>
         </Box>
       );

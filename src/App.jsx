@@ -11,6 +11,7 @@ import CheckoutPage from './pages/CheckoutPage'
 import OrderCompletePage from './pages/OrderCompletePage'
 import WishlistPage from './pages/WishlistPage'
 import ProductDetailsPage from './pages/ProductDetailsPage'
+import NotFoundPage from './util/NotFoundPage'
 
 function App() {
 
@@ -29,7 +30,9 @@ function App() {
             <Route path='checkout' element={<CheckoutPage/>} />
             <Route path='order-complete' element={<OrderCompletePage/>} />
             <Route path='wishlist' element={<WishlistPage/>} />
-            <Route path='product-details' element={<ProductDetailsPage/>} />
+            <Route path='product-details/:Prodid' element={<ProductDetailsPage/>} />
+            <Route path='shopping-cart' element={<CartPage/>} />
+            <Route path='*' element={<NotFoundPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

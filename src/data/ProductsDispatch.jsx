@@ -63,19 +63,19 @@ export default function ProductsDispatch(){
           },
           {
             "id": "p7",
-            "name": "Men's Boots Shoes Maca",
+            "name": "Women's Boots Shoes Maca",
             "price": 8.99,
             "image": image7
           },
           {
             "id": "p8",
-            "name": "Men's Boots Shoes Maca",
+            "name": "Women's Boots Shoes Maca",
             "price": 8.99,
             "image": image8
           },
           {
             "id": "p9",
-            "name": "Men's Boots Shoes Maca",
+            "name": "Women's Boots Shoes Maca",
             "price": 8.99,
             "image": image9
           },
@@ -93,13 +93,13 @@ export default function ProductsDispatch(){
           },
           {
             "id": "p12",
-            "name": "Men's Boots Shoes Maca",
+            "name": "Women's Boots Shoes Maca",
             "price": 8.99,
             "image": image12
           },
           {
             "id": "p13",
-            "name": "Men's Boots Shoes Maca",
+            "name": "Women's Boots Shoes Maca",
             "price": 8.99,
             "image": image13
           },

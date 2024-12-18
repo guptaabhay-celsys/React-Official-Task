@@ -1,75 +1,41 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import menCategoryImage from '../../assets/images/img_bg_3.jpg';
 import womenCategoryImage from '../../assets/images/item-10.jpg';
+import CategoryCard from '../../util/CategoryCard';
 
 export default function CategoryCards() {
-  return (
-    <Box
-      sx={{
-        width: '100%',
-        display: 'flex',
-        justifyContent: 'space-between',
-        gap: '30px',
-        padding: '98px 15px', 
-        boxSizing: 'border-box', 
-      }}
-    >
+    const categoryData = [
+        {
+          title: "Shop Men's Collection",
+          link: "/men",
+          image: menCategoryImage,
+        },
+        {
+          title: "Shop Women's Collection",
+          link: "/women",
+          image: womenCategoryImage,
+        }
+      ];
 
+    return (
       <Box
         sx={{
-          flex: 1,
+          width: '100%',
           display: 'flex',
-          flexDirection: 'column',
+          justifyContent: 'space-between',
+          gap: '30px',
+          padding: '98px 15px',
+          boxSizing: 'border-box',
         }}
       >
-        <Box
-          sx={{
-            height: '488px', 
-            backgroundImage: `url(${menCategoryImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            position: 'relative',
-          }}
-        ></Box>
-        <Typography
-          sx={{
-            textAlign: 'center',
-            fontSize: '35px',
-            marginTop: '20px',
-            fontFamily: 'Rokkit, Georgia, serif',
-          }}
-        >
-          Shop Men&apos;s Collection
-        </Typography>
+        {categoryData.map((category, index) => (
+          <CategoryCard
+            key={index}
+            title={category.title}
+            link={category.link}
+            image={category.image}
+          />
+        ))}
       </Box>
-
-      <Box
-        sx={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Box
-          sx={{
-            height: '488px', 
-            backgroundImage: `url(${womenCategoryImage})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            position: 'relative',
-          }}
-        ></Box>
-        <Typography
-          sx={{
-            textAlign: 'center',
-            fontSize: '35px',
-            marginTop: '20px',
-            fontFamily: 'Rokkit, Georgia, serif',
-          }}
-        >
-          Shop Women&apos;s Collection
-        </Typography>
-      </Box>
-    </Box>
-  );
-}
+    );
+  }

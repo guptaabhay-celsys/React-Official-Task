@@ -33,13 +33,14 @@ const BannerWithImage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animate, setAnimate] = useState(true);
 
+
   useEffect(() => {
     const interval = setInterval(() => {
       setAnimate(false);
       setTimeout(() => {
         setCurrentIndex((prevIndex) => (prevIndex + 1) % textSets.length);
         setAnimate(true); 
-      }, 500); 
+      }, 500);
     }, 5000);
 
     return () => clearInterval(interval);
@@ -74,7 +75,7 @@ const BannerWithImage = () => {
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          opacity: animate ? 1 : 0.5,
+          opacity: animate ? 1 : 0,
           transition: 'opacity 1s ease-out',
         }}
       ></Box>
@@ -177,6 +178,7 @@ const BannerWithImage = () => {
           />
         ))}
       </Box>
+
       <style>
         {`
           @keyframes slideInUp {

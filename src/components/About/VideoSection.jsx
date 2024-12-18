@@ -11,6 +11,16 @@ export default function VideoSection() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const typographyStyles = {
+    fontWeight: "300",
+    fontSize: "16px",
+    fontFamily: "Montserrat, Arial, sans-serif",
+    letterSpacing: "1px",
+    color: "#595959",
+    paddingLeft: "20px",
+    lineHeight: "1.4",
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={4} alignItems="start">
@@ -77,49 +87,17 @@ export default function VideoSection() {
           </Box>
         </Grid>
 
-        <Grid item xs={12} md={6}>
-          <Typography
-            variant="body1"
-            gutterBottom
-            sx={{
-              fontWeight: "300",
-              fontSize: "32px",
-              fontFamily: "Montserrat, Arial, sans-serif",
-              letterSpacing: "1px",
-              paddingLeft: "20px",
-            }}
-          >
-            {aboutData.title}
-          </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: "300",
-              fontSize: "16px",
-              fontFamily: "Montserrat, Arial, sans-serif",
-              letterSpacing: "1px",
-              color: "#595959",
-              paddingLeft: "20px",
-              lineHeight: "1.4",
-            }}
-          >
-            {aboutData.paragraph1}
-          </Typography>
+        <Grid item md={6}>
+        <Typography variant="body1" sx={{ ...typographyStyles, fontSize: "32px", marginBottom: '20px'  }}>
+          {aboutData.title}
+        </Typography>
+        <Typography variant="body1" sx={typographyStyles}>
+          {aboutData.paragraph1}
+        </Typography>
           <br />
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: "300",
-              fontSize: "16px",
-              fontFamily: "Montserrat, Arial, sans-serif",
-              letterSpacing: "1px",
-              color: "#595959",
-              paddingLeft: "20px",
-              lineHeight: "1.4",
-            }}
-          >
-            {aboutData.paragraph2}
-          </Typography>
+        <Typography variant="body1" sx={typographyStyles}>
+          {aboutData.paragraph1}
+        </Typography>
         </Grid>
       </Grid>
 

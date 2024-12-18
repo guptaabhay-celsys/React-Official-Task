@@ -1,4 +1,4 @@
-import { Box, Typography, Grid, Select, FormControl, InputLabel } from "@mui/material";
+import { Box, Typography, Grid, Select, FormControl, InputLabel, MenuItem, Popper } from "@mui/material";
 import CustomTextField from "../../util/CustomTextField";
 import RadioButton from "../../util/RadioButton";
 import { useState } from "react";
@@ -34,37 +34,53 @@ export default function RegisterForm() {
       </Typography>
 
       <FormControl sx={{ width: '100%', marginBottom: '20px' }}>
-        <InputLabel
-          id="country-select-label"
-          sx={{
-            color: '#909090',
-            fontSize: '13px',
-            top: '-6px',
-          }}
-        >
-          Select Country
-        </InputLabel>
-        <Select
-          placeholder="Select Country"
-          sx={{
-            backgroundColor: 'white',
-            borderRadius: '4px',
-            fontSize: '13px',
-            padding: '8px 12px',
+      <InputLabel
+        id="country-select-label"
+        sx={{
+          color: '#909090',
+          fontSize: '13px',
+          top: '-6px',
+          textTransform: 'uppercase'
+        }}
+      >
+        Select Country
+      </InputLabel>
+      <Select
+        labelId="country-select-label"
+        sx={{
+          backgroundColor: 'white',
+          borderRadius: '4px',
+          fontSize: '13px',
+          padding: '8px 12px',
+          boxShadow: 'none',
+          height: '40px',
+          '& .MuiOutlinedInput-notchedOutline': {
+            border: 'none',
+          },
+          '&:hover:not(.Mui-disabled)': {
             boxShadow: 'none',
-            height: '40px',
-            '& .MuiOutlinedInput-notchedOutline': {
-              border: 'none',
-            },
-            '&:hover:not(.Mui-disabled)': {
-              boxShadow: 'none',
-            },
-            '&:focus-within': {
-              boxShadow: 'none',
-            },
-          }}
-        ></Select>
+          },
+          '&:focus-within': {
+            boxShadow: 'none',
+          },
+        }}
+        defaultValue="" // Set default value to an empty string for the placeholder
+        PopperComponent={(props) => <Popper {...props} modifiers={[{ name: 'preventOverflow', options: { boundary: 'scrollParent' } }]} />}
+      >
+        <MenuItem value="" disabled>Select Country</MenuItem> {/* Placeholder option */}
+        <MenuItem value="India">India</MenuItem>
+        <MenuItem value="United States">United States</MenuItem>
+        <MenuItem value="Australia">Australia</MenuItem>
+        <MenuItem value="Canada">Canada</MenuItem>
+        <MenuItem value="Germany">Germany</MenuItem>
+        <MenuItem value="Japan">Japan</MenuItem>
+        <MenuItem value="United Kingdom">United Kingdom</MenuItem>
+        <MenuItem value="South Africa">South Africa</MenuItem>
+        <MenuItem value="Brazil">Brazil</MenuItem>
+        <MenuItem value="France">France</MenuItem>
+      </Select>
       </FormControl>
+
 
       <Grid container spacing={2}>
         <Grid item xs={6}>
@@ -75,7 +91,6 @@ export default function RegisterForm() {
         </Grid>
       </Grid>
 
-      <CustomTextField label="COMPANY NAME" placeholder="Company Name" style={{ fontSize: '13px' }} />
       <CustomTextField label="ADDRESS" placeholder="Enter Your Address" style={{ fontSize: '13px' }} />
       <CustomTextField placeholder="Second Address" style={{ fontSize: '13px' }} />
       <CustomTextField label="TOWN/CITY" placeholder="Town or City" style={{ fontSize: '13px' }} />

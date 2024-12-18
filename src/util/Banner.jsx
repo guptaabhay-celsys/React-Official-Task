@@ -38,10 +38,10 @@ export default function MensPromotionBanner({image, text}){
                     fontSize: '14px', 
                     fontFamily: 'Montserrat, Arial, sans-serif'
                 }}>
-                    <Typography variant="body1" sx={{fontWeight: '300'}}>NEW ARRIVALS</Typography>
-                    <Typography variant="body1" sx={{fontWeight: '300'}}>BEST SELLERS</Typography>
-                    <Typography variant="body1" sx={{fontWeight: '300'}}>EXTENDED WIDTHS</Typography>
-                    <Typography variant="body1" sx={{fontWeight: '300'}}>SALE</Typography>
+                    <Typography variant="body1" sx={{fontWeight: '300', cursor: 'pointer'}}>NEW ARRIVALS</Typography>
+                    <Typography variant="body1" sx={{fontWeight: '300', cursor: 'pointer'}}>BEST SELLERS</Typography>
+                    <Typography variant="body1" sx={{fontWeight: '300', cursor: 'pointer'}}>EXTENDED WIDTHS</Typography>
+                    <Typography variant="body1" sx={{fontWeight: '300', cursor: 'pointer'}}>SALE</Typography>
                 </Box>
             </Box>
         </>
