@@ -3,9 +3,9 @@ import { NavLink } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
 const NavWithIcon = ({ to, label, quantity, Icon, }) => (
-    <Box sx={{ flexGrow: 0, display: 'flex', gap: '5px', color: 'black' }}>
+  <Box sx={{ flexGrow: 0, display: 'flex', gap: '5px', color: 'black' }}>
       
-      <Typography sx={{ letterSpacing: '2px' }}>
+    <Typography sx={{ letterSpacing: '2px' }}>
       <NavLink
         to={to}
         style={({ isActive }) => ({
@@ -13,10 +13,10 @@ const NavWithIcon = ({ to, label, quantity, Icon, }) => (
           textDecoration: "none",
         })}
       >
-          <Icon style = {{verticalAlign: 'bottom'}} /> {label} [{quantity}]
-        </NavLink>
-      </Typography>
-    </Box>
-  );
+        <Icon style = {{verticalAlign: 'bottom'}} /> {label} [{quantity}]
+      </NavLink>
+    </Typography>
+  </Box>
+);
 
-  export default NavWithIcon;
+export default NavWithIcon;

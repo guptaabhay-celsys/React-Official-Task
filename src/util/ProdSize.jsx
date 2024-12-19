@@ -2,9 +2,9 @@ import { Box, Typography } from "@mui/material"
 import sizeData from "../data/size"
 
 export default function ProdSize(){
-    return (
-        <Box sx={{marginBottom: '8px'}}>
-        {sizeData.map(
+  return (
+    <Box sx={{marginBottom: '8px'}}>
+      {sizeData.map(
         (data) =>
           Array.isArray(data.subcategories) && (
             <Box key={data.category} sx={{ marginBottom: '24px' }}>
@@ -54,6 +54,6 @@ export default function ProdSize(){
             </Box>
           )
       )}
-        </Box>
-    )
+    </Box>
+  )
 }

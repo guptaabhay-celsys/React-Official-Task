@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Box from '@mui/material/Box';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -31,13 +30,13 @@ function ResponsiveAppBar() {
         <Box sx={{ flexGrow: 0, display: 'flex', gap: '35px', color: 'black' }}>
           <NavWithIcon
             to="/wishlist"
-            label="wishlist"
+            label="WISHLIST"
             quantity={wishlistQuantity}
             Icon={FavoriteIcon}
           />
           <NavWithIcon
             to="/cart"
-            label="cart"
+            label="CART"
             quantity={cartQuantity}
             Icon={ShoppingCartIcon}
           />

@@ -5,17 +5,21 @@ import { Box } from '@mui/material';
 import MensPromotionBanner from '../util/Banner';
 import womenPromotion from '../assets/Other Images/women-promotion.jpg'
 import Breadcrumb from '../util/NavigatedPath';
+import PaginationOutlined from '../components/Men/Pagination';
+import Partners from '../util/Partners';
 
 export default function WomensPage(){
-    return (
-        <>
-            <Breadcrumb />
-            <Box sx={{width: 'calc(100% - 150px)',
-            margin: '0px auto 98px auto',}}>
-            <MensPromotionBanner image = {womenPromotion} text = "women's" />
-            <ShoesTypeCards image = {casualsWomen}/>
-            <WomenProductSection />
-            </Box>
-        </>
-    )
+  return (
+    <>
+      <Breadcrumb />
+      <Box sx={{width: 'calc(100% - 150px)',
+        margin: '0px auto 98px auto',}}>
+        <MensPromotionBanner image = {womenPromotion} text = "women's" />
+        <ShoesTypeCards image = {casualsWomen}/>
+        <WomenProductSection />
+        <PaginationOutlined />
+        <Partners />
+      </Box>
+    </>
+  )
 }

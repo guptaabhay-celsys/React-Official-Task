@@ -59,16 +59,16 @@ export default function CouponSection() {
           }}
         >
           <TableBody>
-          <TableRow>
-            <TableCell sx={tableCellStyle}>
-              <Typography variant="body1">Subtotal</Typography>
-            </TableCell>
-            <TableCell align="right" sx={{ textAlign: "center" }}>
-              <Typography variant="body1" sx={boldTextStyle}>
-                {currencyFormatter.format(totalAmount)}
-              </Typography>
-            </TableCell>
-          </TableRow>
+            <TableRow>
+              <TableCell sx={tableCellStyle}>
+                <Typography variant="body1">Subtotal</Typography>
+              </TableCell>
+              <TableCell align="right" sx={{ textAlign: "center" }}>
+                <Typography variant="body1" sx={boldTextStyle}>
+                  {currencyFormatter.format(totalAmount)}
+                </Typography>
+              </TableCell>
+            </TableRow>
 
             <TableRow>
               <TableCell sx={tableCellStyle}>
@@ -114,18 +114,18 @@ export default function CouponSection() {
         </Table>
 
         <NavLink to = '/checkout'>
-                <Button
-                variant="contained"
-                sx={{
-                    backgroundColor: "#616161",
-                    borderRadius: "4px",
-                    color: "white",
-                    textTransform: "none",
-                    margin: "50px auto 0 50px",
-                }}
-                >
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: "#616161",
+              borderRadius: "4px",
+              color: "white",
+              textTransform: "none",
+              margin: "50px auto 0 50px",
+            }}
+          >
                 Proceed to Checkout
-                </Button>
+          </Button>
         </NavLink>
       </Box>
     </Box>

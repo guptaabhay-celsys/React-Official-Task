@@ -4,11 +4,11 @@ import cartSlice from './cartSlice';
 import wishlistSlice from './wishlistSlice'
 
 const store = configureStore({
-    reducer: {
-        products: productsReducer,
-        cart: cartSlice,
-        wishlist: wishlistSlice
-    }
+  reducer: {
+    products: productsReducer,
+    cart: cartSlice,
+    wishlist: wishlistSlice
+  }
 })
 
 export default store;

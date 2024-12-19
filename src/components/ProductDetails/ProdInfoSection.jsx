@@ -73,33 +73,33 @@ export default function ProductDetail() {
         }}
       >
         <Box sx={{ position: "relative", width: "100%", height: "750px" }}>
-            <Box
+          <Box
+            sx={{
+              width: "100%",
+              height: "100%",
+              border: "1px solid lightgray",
+              backgroundImage: `url(${prod.image})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
+          >
+            <IconButton
+              onClick={toggleFavoriteHandler}
               sx={{
-                width: "100%",
-                height: "100%",
-                border: "1px solid lightgray",
-                backgroundImage: `url(${prod.image})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
                 position: "absolute",
-                top: 0,
-                left: 0,
+                bottom: "8px",
+                right: "8px",
+                color: isFavorited ? "red" : "inherit",
+                backgroundColor: "rgba(255, 255, 255, 0.7)",
+                borderRadius: "50%",
               }}
             >
-              <IconButton
-                onClick={toggleFavoriteHandler}
-                sx={{
-                  position: "absolute",
-                  bottom: "8px",
-                  right: "8px",
-                  color: isFavorited ? "red" : "inherit",
-                  backgroundColor: "rgba(255, 255, 255, 0.7)",
-                  borderRadius: "50%",
-                }}
-              >
-                {isFavorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-              </IconButton>
-            </Box>
+              {isFavorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+            </IconButton>
+          </Box>
         </Box>
       </Box>
 
@@ -129,7 +129,7 @@ export default function ProductDetail() {
             color: "white",
             textTransform: "none",
             marginTop: "10px",
-        }}
+          }}
           onClick={() => handleAddToCart(prod.id)}
           disabled={isAdded}
         >

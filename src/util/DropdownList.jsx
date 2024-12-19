@@ -69,30 +69,30 @@ const DropdownList = forwardRef(({ anchorEl, open, onClose }, ref) => {
     >
       {options.map((option) => (
         <MenuItem
-        key={option.label}
-        onClick={() => {
-          const navigateTo = option.path === 'shopping cart' ? '/cart' : `/${option.path}`;
-          window.location.href = navigateTo;
+          key={option.label}
+          onClick={() => {
+            const navigateTo = option.path === 'shopping cart' ? '/cart' : `/${option.path}`;
+            window.location.href = navigateTo;
       
-          setTimeout(onClose, 200); 
-        }}
-        sx={{
-          '&:hover': {
-            color: 'white',
-          },
-        }}
-      >
-        <Link
-          to={option.path === 'shopping cart' ? '/cart' : `/${option.path}`}
-          style={{
-            color: 'inherit',
-            textDecoration: 'none',
-            display: 'block',
+            setTimeout(onClose, 200); 
+          }}
+          sx={{
+            '&:hover': {
+              color: 'white',
+            },
           }}
         >
-          {option.label}
-        </Link>
-      </MenuItem>
+          <Link
+            to={option.path === 'shopping cart' ? '/cart' : `/${option.path}`}
+            style={{
+              color: 'inherit',
+              textDecoration: 'none',
+              display: 'block',
+            }}
+          >
+            {option.label}
+          </Link>
+        </MenuItem>
       
       
       ))}

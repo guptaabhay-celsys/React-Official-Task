@@ -9,7 +9,7 @@ import partner4 from '../assets/images/brand-4.jpg';
 import partner5 from '../assets/images/brand-5.jpg';
 import ProductCard from "./ProductCard";
 
-// eslint-disable-next-line react/prop-types
+ 
 export default function Partners({ cosmetic, data, text }) {
   const images = [partner1, partner2, partner3, partner4, partner5];
 
@@ -40,10 +40,10 @@ export default function Partners({ cosmetic, data, text }) {
       </Box>
       <Box
         sx={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(4, 1fr)',
-            gap: '30px',
-            justifyContent: 'center',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '30px',
+          justifyContent: 'center',
         }}
       >
         {data && data.length > 0 ? (

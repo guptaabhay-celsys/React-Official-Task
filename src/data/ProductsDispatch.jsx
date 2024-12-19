@@ -20,112 +20,112 @@ import image15 from '../assets/images/item-15.jpg'
 import image16 from '../assets/images/item-16.jpg'
 
 export default function ProductsDispatch(){
-    const dispatch = useDispatch()
-    const products = useSelector((state) => state.products);
+  const dispatch = useDispatch()
+  const products = useSelector((state) => state.products);
 
-    useEffect(() => {
-        const productData = [
-          {
-            "id": "p1",
-            "name": "Women's Boots Shoes Maca",
-            "price": 139.00,
-            "image": image1
-          },
-          {
-            "id": "p2",
-            "name": "Women's minam meaghan",
-            "price": 8.99,
-            "image": image2
-          },
-          {
-            "id": "p3",
-            "name": "Men's taja commissioner",
-            "price": 8.99,
-            "image": image3
-          },
-          {
-            "id": "p4",
-            "name": "Russ Men's Blue Sneakers",
-            "price": 8.99,
-            "image": image4
-          },
-          {
-            "id": "p5",
-            "name": "Women's Boots Shoes",
-            "price": 8.99,
-            "image": image5
-          },
-          {
-            "id": "p6",
-            "name": "Men's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image6
-          },
-          {
-            "id": "p7",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image7
-          },
-          {
-            "id": "p8",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image8
-          },
-          {
-            "id": "p9",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image9
-          },
-          {
-            "id": "p10",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image10
-          },
-          {
-            "id": "p11",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image11
-          },
-          {
-            "id": "p12",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image12
-          },
-          {
-            "id": "p13",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image13
-          },
-          {
-            "id": "p14",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image14
-          },
-          {
-            "id": "p15",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image15
-          },
-          {
-            "id": "p16",
-            "name": "Women's Boots Shoes Maca",
-            "price": 8.99,
-            "image": image16
-          }
+  useEffect(() => {
+    const productData = [
+      {
+        "id": "p1",
+        "name": "Women's Boots Shoes Maca",
+        "price": 139.00,
+        "image": image1
+      },
+      {
+        "id": "p2",
+        "name": "Women's minam meaghan",
+        "price": 8.99,
+        "image": image2
+      },
+      {
+        "id": "p3",
+        "name": "Men's taja commissioner",
+        "price": 8.99,
+        "image": image3
+      },
+      {
+        "id": "p4",
+        "name": "Russ Men's Blue Sneakers",
+        "price": 8.99,
+        "image": image4
+      },
+      {
+        "id": "p5",
+        "name": "Women's Boots Shoes",
+        "price": 8.99,
+        "image": image5
+      },
+      {
+        "id": "p6",
+        "name": "Men's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image6
+      },
+      {
+        "id": "p7",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image7
+      },
+      {
+        "id": "p8",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image8
+      },
+      {
+        "id": "p9",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image9
+      },
+      {
+        "id": "p10",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image10
+      },
+      {
+        "id": "p11",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image11
+      },
+      {
+        "id": "p12",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image12
+      },
+      {
+        "id": "p13",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image13
+      },
+      {
+        "id": "p14",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image14
+      },
+      {
+        "id": "p15",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image15
+      },
+      {
+        "id": "p16",
+        "name": "Women's Boots Shoes Maca",
+        "price": 8.99,
+        "image": image16
+      }
           
-        ]
+    ]
     
-        dispatch(setProducts(productData));
-      }, [dispatch, products.length]);
+    dispatch(setProducts(productData));
+  }, [dispatch, products.length]);
 
-      return null;
+  return null;
 }

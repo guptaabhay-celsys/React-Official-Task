@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import BrandBox from "./BrandBox";
+import BrandBox from "../Women/BrandBox";
 import MultiActionAreaCard from "../../util/ProductCards";
 
 export default function WomenProductSection() {
@@ -26,9 +26,8 @@ export default function WomenProductSection() {
           flex: "1 1 75%",
         }}
       >
-        <MultiActionAreaCard />
+        <MultiActionAreaCard/>
       </Box>
     </Box>
   );
 }
-  

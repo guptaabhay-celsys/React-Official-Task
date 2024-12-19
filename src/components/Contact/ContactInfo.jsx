@@ -27,19 +27,19 @@ export default function ContactInfo() {
         }}
       >
         <Typography variant="body1" sx={{color: '#909090', fontSize: '14px'}}>
-            <FmdGoodIcon sx={{verticalAlign: 'middle', marginRight: '4px', color: 'black'}} />
+          <FmdGoodIcon sx={{verticalAlign: 'middle', marginRight: '4px', color: 'black'}} />
             198 West 21th Street, Suite 721 New York NY 10016
         </Typography>
         <Typography variant="body1" sx={{color: '#909090', fontSize: '14px'}}>
-            <SettingsPhoneIcon sx={{verticalAlign: 'middle', marginRight: '4px', color: 'black'}} />
+          <SettingsPhoneIcon sx={{verticalAlign: 'middle', marginRight: '4px', color: 'black'}} />
             + 1235 2355 98
         </Typography>
         <Typography variant="body1" sx={{color: '#909090', fontSize: '14px'}}>
-            <TelegramIcon sx={{verticalAlign: 'middle', marginRight: '4px', color: 'black'}} />
+          <TelegramIcon sx={{verticalAlign: 'middle', marginRight: '4px', color: 'black'}} />
             info@yoursite.com
         </Typography>
         <Typography variant="body1" sx={{color: '#909090', fontSize: '14px'}}>
-            <LanguageIcon sx={{verticalAlign: 'middle', marginRight: '4px', color: 'black'}} />
+          <LanguageIcon sx={{verticalAlign: 'middle', marginRight: '4px', color: 'black'}} />
             yoursite.com
         </Typography>
       </Box>

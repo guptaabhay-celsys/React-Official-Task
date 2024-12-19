@@ -21,15 +21,32 @@ const CategoryCard = ({ title, link, image }) => (
         fontFamily: 'Rokkit, Georgia, serif',
       }}
     >
-      <NavLink to={link} style={({ isActive }) => ({
-        textDecoration: 'none', 
-        color: isActive ? '#616161' : '#616161',
-      })}>
+      <NavLink
+        to={link}
+        style={({ isActive }) => ({
+          textDecoration: 'none',
+          color: isActive ? 'black' : '#616161',
+        })}
+        className="category-link"
+      >
         {title}
       </NavLink>
     </Typography>
+    <style>
+      {`
+        .category-link {
+          transition: all 0.3s ease;
+        }
+        .category-link:hover {
+          background-color: #616161;
+          color: white !important;
+          padding: 8px 12px;
+          border-radius: 5px;
+          box-shadow: 1px 1px 4px #616161;
+        }
+      `}
+    </style>
   </Box>
 );
 
 export default CategoryCard;
-  

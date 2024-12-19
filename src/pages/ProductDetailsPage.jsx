@@ -4,13 +4,13 @@ import Breadcrumb from "../util/NavigatedPath";
 import ProdDescription from "../components/ProductDetails/ProdDescription";
 
 export default function ProductDetailsPage(){
-    return (
-        <>
-        <Breadcrumb />
-        <Box sx={{width: 'calc(100% - 150px)', margin: '98px auto'}}>
-            <ProductDetail />
-            <ProdDescription />
-        </Box>
-        </>
-    )
+  return (
+    <>
+      <Breadcrumb />
+      <Box sx={{width: 'calc(100% - 150px)', margin: '98px auto'}}>
+        <ProductDetail />
+        <ProdDescription />
+      </Box>
+    </>
+  )
 }

@@ -1,6 +1,7 @@
-import { Box, Typography, IconButton, Button } from "@mui/material";
+import { Box, Typography, IconButton, Button, Snackbar, Alert } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 import { currencyFormatter } from "../../util/formatting";
 import { wishlistActions } from "../../store/wishlistSlice";
 import { cartActions } from "../../store/cartSlice";
@@ -10,11 +11,14 @@ import { useNavigate } from "react-router-dom";
 export default function ProductSection({ cosmetic }) {
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const cartItems = useSelector((state) => state.cart.items);
+  const [notification, setNotification] = useState({ open: false, message: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
   const handleRemove = (id) => {
     dispatch(wishlistActions.deleteItemFromWishlist(id));
+    showNotification("Product removed from wishlist!");
   };
 
   const addToCartHandler = (id, image, name, price) => {
@@ -31,6 +35,16 @@ export default function ProductSection({ cosmetic }) {
       navigate("/cart");
     }
   };
+
+
+  const showNotification = (message) => {
+    setNotification({ open: true, message });
+  };
+
+  const handleCloseNotification = () => {
+    setNotification({ open: false, message: "" });
+  };
+
 
   return (
     <Box sx={{ margin: "20px auto", ...cosmetic }}>
@@ -128,6 +142,22 @@ export default function ProductSection({ cosmetic }) {
           No Products Are Wishlisted Yet!
         </Typography>
       )}
+
+
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={3000}
+        onClose={handleCloseNotification}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseNotification}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

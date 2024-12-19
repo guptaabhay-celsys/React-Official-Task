@@ -1,14 +1,16 @@
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography, IconButton, Snackbar, Alert } from "@mui/material";
 import { RemoveCircleOutline, AddCircleOutline, Close } from "@mui/icons-material";
 import { currencyFormatter } from "../../util/formatting";
 import { cartActions } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import CouponSection from "./CouponSection";
+import { useState } from "react";
 
 // eslint-disable-next-line react/prop-types
 export default function ProductSection({ cosmetic }) {
   const cartItems = useSelector((state) => state.cart.items);
+  const [notification, setNotification] = useState({ open: false, message: "" });
   const dispatch = useDispatch();
 
   const handleIncrease = (id) => {
@@ -31,6 +33,15 @@ export default function ProductSection({ cosmetic }) {
 
   const handleRemove = (id) => {
     dispatch(cartActions.deleteItemFromCart(id)); 
+    showNotification("Product removed from cart!");
+  };
+
+  const showNotification = (message) => {
+    setNotification({ open: true, message });
+  };
+
+  const handleCloseNotification = () => {
+    setNotification({ open: false, message: "" });
   };
 
   return (
@@ -125,14 +136,29 @@ export default function ProductSection({ cosmetic }) {
           </Box>
         );
       }) : 
-      <Typography sx={{fontFamily: 'Montserrat,Arial, sans-serif', fontSize: '36px', textAlign: 'center', margin: '98px auto 196px auto', color: '#616161'}}>
+        <Typography sx={{fontFamily: 'Montserrat,Arial, sans-serif', fontSize: '36px', textAlign: 'center', margin: '98px auto 196px auto', color: '#616161'}}>
         Your Cart Feels Light!
         </Typography>
       }
 
       <Box sx={{marginTop: '150px'}}>
-      {cartItems.length > 0 ? <CouponSection /> : <></>}
+        {cartItems.length > 0 ? <CouponSection /> : <></>}
       </Box>
+
+      <Snackbar
+        open={notification.open}
+        autoHideDuration={3000}
+        onClose={handleCloseNotification}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseNotification}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

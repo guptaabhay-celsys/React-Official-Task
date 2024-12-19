@@ -1,7 +1,28 @@
+import { useState, useEffect } from 'react';
 import { Box, TextField, Typography, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useDispatch } from 'react-redux';
+import { filterProducts } from '../../store/productsSlice';
 
 const HeaderWithSearchBar = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedTerm, setDebouncedTerm] = useState('');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedTerm(searchTerm);
+    }, 300);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    dispatch(filterProducts(debouncedTerm));
+  }, [debouncedTerm, dispatch]);
+
   return (
     <Box
       sx={{
@@ -30,14 +51,16 @@ const HeaderWithSearchBar = () => {
       <TextField
         variant="outlined"
         placeholder="Search"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
               <SearchIcon
                 sx={{
                   color: 'white',
-                  backgroundColor: '#88c8bc', 
-                  borderRadius: '50%', 
+                  backgroundColor: '#88c8bc',
+                  borderRadius: '50%',
                   padding: '9px',
                   position: 'absolute',
                   right: '0px',
@@ -45,14 +68,14 @@ const HeaderWithSearchBar = () => {
                   transform: 'translateY(-50%)',
                   zIndex: 2,
                   fontSize: '20px !important',
-                  boxSizing: 'unset'
+                  boxSizing: 'unset',
                 }}
               />
             </InputAdornment>
           ),
           sx: {
             borderRadius: '35px',
-            height: '38px', 
+            height: '38px',
             paddingRight: '80px',
           },
         }}

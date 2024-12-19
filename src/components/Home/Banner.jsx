@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import image1 from '../../assets/Other Images/image1.jpg';
 import image2 from '../../assets/Other Images/image2.jpg';
 import image from '../../assets/images/img_bg_3.jpg';
+import { Link } from 'react-scroll';
 
 const textSets = [
   {
@@ -32,7 +33,6 @@ const textSets = [
 const BannerWithImage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [animate, setAnimate] = useState(true);
-
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -140,17 +140,24 @@ const BannerWithImage = () => {
         >
           {description}
         </Typography>
-        
-        <ShopButton
-          cosmetic={{
-            padding: '20px 30px',
-            letterSpacing: '3px',
-            textTransform: 'uppercase',
-            animation: animate ? 'slideInUp 1s ease-out' : 'none',
-          }}
+
+        <Link
+          to="home-products"
+          smooth={true}
+          duration={500}
+          offset={-50} 
         >
-          Shop Collection
-        </ShopButton>
+          <ShopButton
+            cosmetic={{
+              padding: '20px 30px',
+              letterSpacing: '3px',
+              textTransform: 'uppercase',
+              animation: animate ? 'slideInUp 1s ease-out' : 'none',
+            }}
+          >
+            Shop Collection
+          </ShopButton>
+        </Link>
       </Box>
 
       <Box

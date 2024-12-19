@@ -5,9 +5,9 @@ import PaymentSection from "./PaymentSection"
 export default function BillingSection() {
 
   return (
-      <Box sx={{ display: "flex", gap: '20px', marginBottom: '226px' }}>
-        <RegisterForm />
-        <PaymentSection />
-      </Box>
+    <Box sx={{ display: "flex", gap: '20px', marginBottom: '226px' }}>
+      <RegisterForm />
+      <PaymentSection />
+    </Box>
   );
 }

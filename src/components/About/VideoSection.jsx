@@ -88,16 +88,16 @@ export default function VideoSection() {
         </Grid>
 
         <Grid item md={6}>
-        <Typography variant="body1" sx={{ ...typographyStyles, fontSize: "32px", marginBottom: '20px'  }}>
-          {aboutData.title}
-        </Typography>
-        <Typography variant="body1" sx={typographyStyles}>
-          {aboutData.paragraph1}
-        </Typography>
+          <Typography variant="body1" sx={{ ...typographyStyles, fontSize: "32px", marginBottom: '20px'  }}>
+            {aboutData.title}
+          </Typography>
+          <Typography variant="body1" sx={typographyStyles}>
+            {aboutData.paragraph1}
+          </Typography>
           <br />
-        <Typography variant="body1" sx={typographyStyles}>
-          {aboutData.paragraph1}
-        </Typography>
+          <Typography variant="body1" sx={typographyStyles}>
+            {aboutData.paragraph1}
+          </Typography>
         </Grid>
       </Grid>
 

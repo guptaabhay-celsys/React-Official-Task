@@ -7,15 +7,15 @@ import Partners from '../util/Partners'
 import Breadcrumb from '../util/NavigatedPath'
 
 export default function WishlistPage(){
-    return (
-        <>
-        <Breadcrumb />
-        <Box sx={{width: 'calc(100% - 150px)', margin: '98px auto'}}>
-            <FlowDiagram activeStep={0} />
-            <HeaderSection />
-            <FavouriteProducts />
-            <Partners data = {RelatedProductsData()} text = 'Shop More' />
-        </Box>
-        </>
-    )
+  return (
+    <>
+      <Breadcrumb />
+      <Box sx={{width: 'calc(100% - 150px)', margin: '98px auto'}}>
+        <FlowDiagram activeStep={0} />
+        <HeaderSection />
+        <FavouriteProducts />
+        <Partners data = {RelatedProductsData()} text = 'Shop More' />
+      </Box>
+    </>
+  )
 }
