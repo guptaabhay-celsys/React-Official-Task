@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import ShopButton from '../util/Button'
+import { Link } from "react-scroll";
 
 // eslint-disable-next-line react/prop-types
 export default function ShoesCard({ image, text }) {
@@ -25,10 +26,13 @@ export default function ShoesCard({ image, text }) {
         color: 'white', 
         zIndex: 1 
       }}>
+        
         <Typography variant="body1" sx={{ marginBottom: '8px', fontWeight: '500', fontSize: '40px', fontFamily: 'Rokkit, Georgia, serif', color: 'lightgray' }}>
           {text}
         </Typography>
-        <ShopButton cosmetic={{padding: '18px 36px', textTransform: 'none'}}>Shop Now</ShopButton>
+        <Link to="home-products" smooth={true} duration={500} offset={-50}>
+          <ShopButton cosmetic={{padding: '18px 36px', textTransform: 'none'}}>Shop Now</ShopButton>
+        </Link>
       </Box>
     </Box>
   );

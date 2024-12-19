@@ -34,27 +34,28 @@ export default function MultiActionAreaCard({ style, menStyle, navigationType, c
         : products;
 
   return (
-    <Box
-      sx={{
-        padding: isWomenPage || isMenPage ? '0px 0px 98px 0px' : '98px auto',
-        flex: '1',
-        ...style,
-        ...menStyle,
-      }}
-    >
-      <Typography
-        variant="h4"
+    <Element name="home-products">
+      <Box
         sx={{
-          textAlign: 'center',
-          paddingBottom: isHomePage ? '70px' : '0px',
-          fontWeight: '700',
-          fontFamily: 'Rokkitt, Georgia, serif',
-          ...cosmetic,
+          padding: isWomenPage || isMenPage ? '0px 0px 98px 0px' : '98px auto',
+          flex: '1',
+          ...style,
+          ...menStyle,
         }}
       >
-        {text}
-      </Typography>
-      <Element name="home-products">
+        <Typography
+          variant="h4"
+          sx={{
+            textAlign: 'center',
+            paddingBottom: isHomePage ? '70px' : '0px',
+            fontWeight: '700',
+            fontFamily: 'Rokkitt, Georgia, serif',
+            ...cosmetic,
+          }}
+        >
+          {text}
+        </Typography>
+      
         <Box
           sx={{
             display: 'grid',
@@ -89,12 +90,13 @@ export default function MultiActionAreaCard({ style, menStyle, navigationType, c
             </Typography>
           )}
         </Box>
-      </Element>
-      <Link to="home-products" smooth={true} duration={500} offset={-50}>
-        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          {navigationType}
-        </Box>
-      </Link>
-    </Box>
+      
+        <Link to="home-products" smooth={true} duration={500} offset={-50}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {navigationType}
+          </Box>
+        </Link>
+      </Box>
+    </Element>
   );
 }
