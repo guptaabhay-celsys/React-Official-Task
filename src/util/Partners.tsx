@@ -8,14 +8,20 @@ import partner3 from '../assets/images/brand-3.jpg';
 import partner4 from '../assets/images/brand-4.jpg';
 import partner5 from '../assets/images/brand-5.jpg';
 import ProductCard from "./ProductCard";
-import { InitialProductType } from "../store/productsSlice";
 
 type PartnersType = {
   cosmetic: React.CSSProperties,
-  data: InitialProductType[],
+  data: Product[],
   text: string
 }
 
+type Product = {
+  id: string | number;
+  name: string;
+  price: number;
+  image_url: string;
+  gender: string;
+};
  
 export default function Partners({ cosmetic, data, text }: PartnersType) {
   const images = [partner1, partner2, partner3, partner4, partner5];
@@ -58,7 +64,7 @@ export default function Partners({ cosmetic, data, text }: PartnersType) {
             <ProductCard
               key={product.id}
               id={product.id}
-              image={product.image}
+              image={product.image_url}
               name={product.name}
               price={product.price}
               currencyFormatter={currencyFormatter}

@@ -1,4 +1,10 @@
-/* eslint-disable react/prop-types */
+import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { setWishlist, RootWishlistState } from "../store/wishlistSlice";
+import {
+  addItemToWishlistThunk,
+  deleteItemFromWishlistThunk,
+} from "../../backend/util/handleWishlist";
 import {
   Card,
   CardActionArea,
@@ -11,78 +17,78 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import { cartActions, RootState } from "../store/cartSlice";
-import { NavLink } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { useState, useEffect } from "react";
-import { RootWishlistState, wishlistActions } from "../store/wishlistSlice";
+import { NavLink } from "react-router-dom";
 
 type ProdCardType = {
-  id: string | number,
-  image: string,
-  name: string,
-  price: number,
-  currencyFormatter: Intl.NumberFormat
-}
+  id: string | number;
+  image: string;
+  name: string;
+  price: number;
+  currencyFormatter: Intl.NumberFormat;
+};
 
 const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType) => {
-  const dispatch = useDispatch();
-  const isWishlisted = useSelector((state: RootWishlistState) =>
-    state.wishlist.items.some((item) => item.id === id)
-  );
-
-  const [isFavorited, setIsFavorited] = useState(isWishlisted);
   const [notification, setNotification] = useState({ open: false, message: "" });
+  const [isFavorited, setIsFavorited] = useState(false);
 
-  const isAdded = useSelector((state: RootState) =>
-    state.cart.items.some((item) => item.id === id)
-  );
+  const dispatch = useDispatch();
+  const wishlistItems = useSelector((state: RootWishlistState) => state.wishlist.items);
 
-  const addToCartHandler = () => {
-    if (!isAdded) {
-      dispatch(
-        cartActions.addItemToCart({
-          id,
-          image,
-          name,
-          price,
-        })
-      );
-      showNotification("Product added to cart!");
+  useEffect(() => {
+    setIsFavorited(wishlistItems.some((item) => item.product_id === id));
+  }, [wishlistItems, isFavorited]);
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      const userId = 1;
+      try {
+        const response = await fetch(`http://localhost:3000/wishlist/products?userId=${userId}`);
+        if (!response.ok) throw new Error("Failed to fetch wishlist");
+        const data = await response.json();
+        console.log(data.data);
+        dispatch(setWishlist({ items: data.data, totalQuantity: data.data.length }));
+      } catch (error) {
+        console.error("Error fetching wishlist:", error);
+      }
+    };
+  
+    fetchWishlist();
+  }, [dispatch]); 
+
+  const toggleFavoriteHandler = async () => {
+    const userId = 1;
+    const product = { id, image, name, price, userId };
+  
+    try {
+      if (wishlistItems.some(item => item.product_id === id)) {
+        await dispatch(deleteItemFromWishlistThunk({ productId: id, userId })).unwrap();
+  
+        const updatedWishlist = wishlistItems.filter(item => item.product_id !== id);
+        dispatch(setWishlist({ items: updatedWishlist, totalQuantity: updatedWishlist.length }));
+  
+        setNotification({ open: true, message: "Product removed from wishlist!" });
+        setIsFavorited(false);
+      } else {
+        await dispatch(addItemToWishlistThunk(product)).unwrap();
+  
+        const updatedWishlist = [...wishlistItems, product];
+        dispatch(setWishlist({ items: updatedWishlist, totalQuantity: updatedWishlist.length }));
+  
+        setNotification({ open: true, message: "Product added to wishlist!" });
+        setIsFavorited(true);
+      }
+    } catch (error) {
+      console.error(isFavorited ? "Failed to remove from wishlist:" : "Failed to add to wishlist:", error);
+      setNotification({ open: true, message: `Failed to ${isFavorited ? "remove" : "add"} product from wishlist.` });
     }
   };
-
-  const toggleFavoriteHandler = () => {
-    if (isFavorited) {
-      dispatch(wishlistActions.deleteItemFromWishlist(id));
-      showNotification("Product removed from wishlist!");
-    } else {
-      dispatch(
-        wishlistActions.addItemToWishlist({
-          id,
-          image,
-          price,
-          name,
-        })
-      );
-      showNotification("Product added to wishlist!");
-    }
-    setIsFavorited(!isFavorited);
-  };
-
-  const showNotification = (message: string) => {
-    setNotification({ open: true, message });
-  };
+  
 
   const handleCloseNotification = () => {
     setNotification({ open: false, message: "" });
   };
-
-  useEffect(() => {
-    setIsFavorited(isWishlisted);
-  }, [isWishlisted]);
 
   return (
     <>
@@ -94,6 +100,7 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
           boxShadow: "none",
           display: "flex",
           flexDirection: "column",
+          height: "100%",
         }}
       >
         <CardActionArea
@@ -101,24 +108,19 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
             height: "100%",
             display: "flex",
             flexDirection: "column",
+            justifyContent: "space-between",
           }}
         >
-          <Box
-            sx={{
-              position: "relative",
-              width: "100%",
-              height: "250px",
-            }}
-          >
+          <Box sx={{ position: "relative", width: "100%", height: "250px", overflow: "hidden" }}>
             <NavLink to={`/product-details/${id}`}>
               <CardMedia
                 component="img"
                 image={image}
                 alt={name}
                 sx={{
-                  height: "250px",
                   width: "100%",
-                  objectFit: "cover",
+                  height: "100%",
+                  objectFit: "contain",
                   backgroundPosition: "center",
                 }}
               />
@@ -130,20 +132,24 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
                 bottom: "8px",
                 right: "8px",
                 color: isFavorited ? "red" : "inherit",
-                backgroundColor: "rgba(255, 255, 255, 0.7)",
+                backgroundColor: "rgba(68, 68, 68, 0.28)",
                 borderRadius: "50%",
               }}
             >
-              {isFavorited ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              {wishlistItems.some(item => item.product_id === id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
             </IconButton>
           </Box>
           <CardContent
             sx={{
               flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-between",
               textAlign: "center",
               fontFamily: "Rokkitt, Georgia, serif",
               padding: "21px",
               boxSizing: "border-box",
+              minHeight: "150px",
             }}
           >
             <Typography
@@ -154,34 +160,28 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
                 fontSize: "18px",
                 color: "#000",
                 textTransform: "uppercase",
-                textWrap: "wrap",
                 marginBottom: "8px",
               }}
             >
               {name}
             </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                fontSize: "18px",
-                color: "#000",
-              }}
-            >
+            <Typography variant="body2" sx={{ fontSize: "18px", color: "#000" }}>
               Price: {currencyFormatter.format(price)}
             </Typography>
             <Button
               variant="contained"
               sx={{
-                backgroundColor: isAdded ? "#bdbdbd" : "#616161",
+                backgroundColor: "#616161",
                 borderRadius: "4px",
                 color: "white",
                 textTransform: "none",
                 marginTop: "10px",
+                width: "150px",
+                alignSelf: "center",
               }}
-              onClick={addToCartHandler}
-              disabled={isAdded}
+              onClick={() => {}}
             >
-              {isAdded ? "Product Added" : "Add to Cart"}
+              Add to Cart
             </Button>
           </CardContent>
         </CardActionArea>
@@ -193,11 +193,7 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
         onClose={handleCloseNotification}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert
-          onClose={handleCloseNotification}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
+        <Alert onClose={handleCloseNotification} severity="success" sx={{ width: "100%" }}>
           {notification.message}
         </Alert>
       </Snackbar>

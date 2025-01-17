@@ -1,56 +1,59 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { addItemToWishlistThunk, deleteItemFromWishlistThunk } from "../../backend/util/handleWishlist";
 
 type ItemType = {
-  id: string,
-  price: number,
-  image: string,
-  name: string
-}
+  product_id: string | number;
+  id: string | number;
+  price: number;
+  image: string;
+  name: string;
+};
 
 type InitialWishlistType = {
-  items: ItemType[],
-  totalQuantity: number
-}
+  items: ItemType[];
+  totalQuantity: number;
+};
 
 export type RootWishlistState = {
   wishlist: InitialWishlistType;
-}
+};
 
 const initialWishlistState: InitialWishlistType = {
   items: [],
-  totalQuantity : 0,
+  totalQuantity: 0,
 };
 
 const wishlistSlice = createSlice({
-  name: 'wishlist',
+  name: "wishlist",
   initialState: initialWishlistState,
   reducers: {
     addItemToWishlist(state, action) {
       const newItem = action.payload;
-      state.totalQuantity++
+      state.totalQuantity++;
       const existingItem = state.items.find(item => item.id === newItem.id);
 
       if (!existingItem) {
-        state.items.push({
-          id: newItem.id,
-          price: newItem.price,
-          image: newItem.image,
-          name: newItem.name,
-        });
-
+        state.items.push(newItem);
       }
     },
     deleteItemFromWishlist(state, action) {
       const id = action.payload;
-      state.totalQuantity--
-      const itemToRemove = state.items.find(item => item.id === id);
-
-      if (itemToRemove) {
-        state.items = state.items.filter(item => item.id !== id);
-      }
+      state.totalQuantity--;
+      state.items = state.items.filter(item => item.id !== id);
     },
+    setWishlist(state, action) {
+      state.items = action.payload.items;
+      state.totalQuantity = action.payload.totalQuantity;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addItemToWishlistThunk.fulfilled, (state, action) => {
+      })
+      .addCase(deleteItemFromWishlistThunk.fulfilled, (state, action) => {
+      });
   },
 });
 
-export const wishlistActions = wishlistSlice.actions;
+export const { addItemToWishlist, deleteItemFromWishlist, setWishlist } = wishlistSlice.actions;
 export default wishlistSlice.reducer;

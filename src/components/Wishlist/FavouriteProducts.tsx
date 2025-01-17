@@ -3,11 +3,11 @@ import { Close } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
 import { useState } from "react";
 import { currencyFormatter } from "../../util/formatting";
-import { RootWishlistState, wishlistActions } from "../../store/wishlistSlice";
+import { RootWishlistState, setWishlist } from "../../store/wishlistSlice";
 import { cartActions, RootState } from "../../store/cartSlice";
 import { useNavigate } from "react-router-dom";
+import { deleteItemFromWishlistThunk } from "../../../backend/util/handleWishlist";
 
-// eslint-disable-next-line react/prop-types
 export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProperties }) {
   const wishlistItems = useSelector((state: RootWishlistState) => state.wishlist.items);
   const cartItems = useSelector((state: RootState) => state.cart.items);
@@ -15,13 +15,22 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const handleRemove = async (id: string | number) => {
+    try {
+      await dispatch(deleteItemFromWishlistThunk({ productId: id, userId: 1 })).unwrap();
 
-  const handleRemove = (id: string) => {
-    dispatch(wishlistActions.deleteItemFromWishlist(id));
-    showNotification("Product removed from wishlist!");
+      const updatedWishlist = wishlistItems.filter(item => item.id !== id);
+      console.log(updatedWishlist);
+      dispatch(setWishlist({ items: updatedWishlist, totalQuantity: updatedWishlist.length }));
+  
+      setNotification({ open: true, message: "Product removed from Wishlist" });
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
   };
+  
 
-  const addToCartHandler = (id: string, image: string, name: string, price: number) => {
+  const addToCartHandler = (id: string | number, image: string, name: string, price: number) => {
     const isAdded = cartItems.some((cartItem) => cartItem.id === id);
     if (!isAdded) {
       dispatch(
@@ -36,7 +45,6 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
     }
   };
 
-
   const showNotification = (message: string) => {
     setNotification({ open: true, message });
   };
@@ -44,7 +52,6 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
   const handleCloseNotification = () => {
     setNotification({ open: false, message: "" });
   };
-
 
   return (
     <Box sx={{ margin: "20px auto", ...cosmetic }}>
@@ -132,21 +139,20 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
       ) : (
         <Typography
           sx={{
-            fontFamily: "Montserrat,Arial, sans-serif",
-            fontSize: "36px",
+            fontSize: "16px",
+            fontWeight: "500",
+            fontFamily: "Roboto, Arial, sans-serif",
             textAlign: "center",
-            margin: "98px auto 196px auto",
-            color: "#616161",
+            color: "#808080",
           }}
         >
-          No Products Are Wishlisted Yet!
+          No Items Found
         </Typography>
       )}
 
-
       <Snackbar
         open={notification.open}
-        autoHideDuration={3000}
+        autoHideDuration={1000}
         onClose={handleCloseNotification}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >

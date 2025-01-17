@@ -1,13 +1,13 @@
-import { Button, SvgIconTypeMap } from "@mui/material"
-import { OverridableComponent } from "@mui/material/OverridableComponent";
+import { Button} from "@mui/material"
 
-type ShopButtonType = {
-  children: React.ReactNode,
-  cosmetic: React.CSSProperties
-}
+type ShopButtonProps = {
+  children: React.ReactNode;
+  cosmetic?: React.CSSProperties;
+  onClick?: () => void;
+};
 
 // eslint-disable-next-line react/prop-types
-export default function ShopButton({ children, cosmetic }: ShopButtonType){
+export default function ShopButton({ children, cosmetic }: ShopButtonProps){
   return (
     <Button variant="contained" sx={{ color: '#fff', border: 'none', cursor: 'pointer', background: '#616161', transition: 'all 0.5s ease', ':hover': {background: 'black'}, borderRadius: '50px', ...cosmetic}} >
       {children}

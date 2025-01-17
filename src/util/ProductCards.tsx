@@ -1,46 +1,78 @@
+import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
-import { useSelector } from 'react-redux';
-import { currencyFormatter } from './formatting';
 import { Box } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import ProductCard from './ProductCard';
-import { Element, Link } from 'react-scroll';
-import { RootState } from '../store/productsSlice';
+import { Element } from 'react-scroll';
+import { currencyFormatter } from './formatting';
 
 type ProductCardsType = {
-  style: React.CSSProperties,
-  menStyle: React.CSSProperties,
-  navigationType: React.ReactNode,
-  cosmetic: React.CSSProperties,
-  text: string
-}
+  style: React.CSSProperties;
+  menStyle: React.CSSProperties;
+  navigationType: React.ReactNode;
+  cosmetic: React.CSSProperties;
+  text: string;
+};
 
-// eslint-disable-next-line react/prop-types
-export default function MultiActionAreaCard({ style, menStyle, navigationType, cosmetic, text }: ProductCardsType) {
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  image_url: string;
+  gender: string;
+};
+
+export default function MultiActionAreaCard({
+  style,
+  menStyle,
+  navigationType,
+  cosmetic,
+  text,
+}: ProductCardsType) {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
+  const [showAll, setShowAll] = useState(false);
   const location = useLocation();
+
   const isWomenPage = location.pathname === '/women';
   const isMenPage = location.pathname === '/men';
   const isHomePage = location.pathname === '/';
-  const products = useSelector((state: RootState) => state.products.products);
-  const filteredProducts = useSelector((state: RootState) => state.products.filteredProducts);
 
-  const updatedProductsWomen = (productList: any[]) =>
-    productList.filter((product: { name: string | string[]; }) => product.name.includes('omen'));
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/products');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data: Product[] = await response.json();
+        setProducts(data);
 
-  const updatedProductsMen = (productList: any[]) =>
-    productList.filter((product: { name: string | string[]; }) => !product.name.includes('omen'));
+        setDisplayedProducts(data.slice(0, 15));
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
 
-  const productsToDisplay = filteredProducts.length > 0
-    ? isWomenPage
-      ? updatedProductsWomen(filteredProducts)
-      : isMenPage
-        ? updatedProductsMen(filteredProducts)
-        : filteredProducts
-    : isWomenPage
-      ? updatedProductsWomen(products)
-      : isMenPage
-        ? updatedProductsMen(products)
-        : products;
+    fetchProducts();
+  }, []);
+
+  const filterProducts = (productsList: Product[]) => {
+    if (isWomenPage) {
+      return products.filter((product) => product.gender === 'Female');
+    }
+    if (isMenPage) {
+      return products.filter((product) => product.gender === 'Male');
+    }
+    return productsList;
+  };
+
+  const productsToDisplay = filterProducts(displayedProducts);
+
+  const handleShowAllProducts = () => {
+    setDisplayedProducts(products);
+    setShowAll(true);
+  };
 
   return (
     <Element name="home-products">
@@ -64,7 +96,7 @@ export default function MultiActionAreaCard({ style, menStyle, navigationType, c
         >
           {text}
         </Typography>
-      
+
         <Box
           sx={{
             display: 'grid',
@@ -76,11 +108,11 @@ export default function MultiActionAreaCard({ style, menStyle, navigationType, c
           }}
         >
           {productsToDisplay.length > 0 ? (
-            productsToDisplay.map((product: { id: string, image: string, name: string, price: number }) => (
+            productsToDisplay.map((product) => (
               <ProductCard
                 key={product.id}
                 id={product.id}
-                image={product.image}
+                image={product.image_url}
                 name={product.name}
                 price={product.price}
                 currencyFormatter={currencyFormatter}
@@ -99,12 +131,12 @@ export default function MultiActionAreaCard({ style, menStyle, navigationType, c
             </Typography>
           )}
         </Box>
-      
-        <Link to="home-products" smooth={true} duration={500} offset={-50}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            {navigationType}
-          </Box>
-        </Link>
+
+        {!showAll && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <div onClick={handleShowAllProducts}>{navigationType}</div>
+            </Box>
+        )}
       </Box>
     </Element>
   );

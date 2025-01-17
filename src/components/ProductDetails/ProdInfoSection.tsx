@@ -10,13 +10,39 @@ import { useNavigate } from "react-router-dom";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { useParams } from "react-router-dom";
-import { RootWishlistState, wishlistActions } from "../../store/wishlistSlice";
-import { InitialProductType, RootState as RootProductState } from "../../store/productsSlice";
+import { RootWishlistState, addItemToWishlist, deleteItemFromWishlist } from "../../store/wishlistSlice";
 import { RootState as RootCartState } from "../../store/cartSlice";
+import { useEffect, useState } from "react";
+
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+  image_url: string;
+  gender: string;
+  description: string
+  available_sizes: number[]
+};
 
 export default function ProductDetail() {
-
-  const products: InitialProductType[] = useSelector((state: RootProductState) => state.products.products);
+  const [products, setProducts] = useState<Product[]>([]);
+  useEffect(() => {
+      const fetchProducts = async () => {
+        try {
+          const response = await fetch('http://localhost:3000/products');
+          if (!response.ok) {
+            throw new Error('Failed to fetch products');
+          }
+          const data: Product[] = await response.json();
+          setProducts(data);
+        } catch (error) {
+          console.error('Error fetching products:', error);
+        }
+      };
+  
+      fetchProducts();
+    }, []);
   const { Prodid } = useParams();
   const prod = products.find((prod: { id: string | number; }) => prod.id == Prodid)
   
@@ -40,7 +66,7 @@ export default function ProductDetail() {
         id: matchedItem.id,
         name: matchedItem.name,
         price: matchedItem.price,
-        image: matchedItem.image,
+        image: matchedItem.image_url,
       })
     );
     navigate("/cart");
@@ -48,17 +74,17 @@ export default function ProductDetail() {
 
   const toggleFavoriteHandler = () => {
     if (isFavorited && prod) {
-      dispatch(wishlistActions.deleteItemFromWishlist(prod.id));
+      dispatch(deleteItemFromWishlist(prod.id));
     } else {
       dispatch(
-        wishlistActions.addItemToWishlist({
+        addItemToWishlist({
           id: prod?.id,
-          image: prod?.image,
+          image: prod?.image_url,
           price: prod?.price,
           name: prod?.name,
         })
       );
-      navigate("/wishlist");
+
     }
   };
 
@@ -80,8 +106,9 @@ export default function ProductDetail() {
               width: "100%",
               height: "100%",
               border: "1px solid lightgray",
-              backgroundImage: `url(${prod?.image})`,
-              backgroundSize: "cover",
+              backgroundImage: `url(${prod?.image_url})`,
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               position: "absolute",
               top: 0,
@@ -118,10 +145,10 @@ export default function ProductDetail() {
           <StarHalfIcon sx={{ color: "#616161", fontSize: "16px" }} /> (74 Ratings)
         </Box>
         <Typography variant="body2" sx={{ mt: 2, mb: 2, color: "#666" }}>
-           Default product description.
+           {prod && prod.description}
         </Typography>
 
-        <ProdSize />
+        <ProdSize sizes = {prod?.available_sizes} />
 
         <Button
           variant="contained"
