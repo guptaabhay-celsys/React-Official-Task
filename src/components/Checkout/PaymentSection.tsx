@@ -23,7 +23,6 @@ export default function PaymentSection() {
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center', padding: '0px 15px' }}>
-      {/* Cart Total */}
       <Box sx={{ padding: "28px 42px", width: '100%', minWidth: '300px', backgroundColor: '#f0f0f0', maxWidth: '400px' }}>
         <Typography sx={{ fontSize: '20px', marginBottom: '40px', color: 'black', fontFamily: 'Rokkit, Georgia, serif' }}>Cart Total</Typography>
         <Table sx={{ borderCollapse: "collapse", "& .MuiTableCell-root": { borderBottom: "none", padding: "4px 10px" } }}>
@@ -80,10 +79,10 @@ export default function PaymentSection() {
             <TableRow>
               <TableCell>
                 <Typography variant="body1" sx={{ fontWeight: 'normal', color: '#909090', fontSize: '14px !important' }}>
-                                    Order Total
+                  Order Total
                 </Typography>
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="center">
                 <Typography variant="body1" sx={{ fontWeight: 'normal', color: '#909090', fontSize: '14px !important' }}>
                   {currencyFormatter.format(totalAmount - discount)}
                 </Typography>
@@ -115,7 +114,7 @@ export default function PaymentSection() {
         />
 
         <FormControlLabel
-          control={<Checkbox sx={{ color: '#909090' }} />}
+          control={<Checkbox sx={{ color: '#909090 !important' }} />}
           label={<Typography sx={commonTextStyle}>I have read and accept the terms and conditions.</Typography>}
           sx={{ padding: '0 15px', margin: '0' }}
         />

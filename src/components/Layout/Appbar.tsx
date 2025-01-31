@@ -6,9 +6,10 @@ import NavButton from '../../util/NavButon';
 import NavWithIcon from '../../util/NavWithIcon';
 import { RootState } from '../../store/cartSlice';
 import { RootWishlistState } from '../../store/wishlistSlice';
+import UserProfile from '../../util/User';
 
 function ResponsiveAppBar() {
-  const cartQuantity = useSelector((state: RootState) => state.cart.totalQuantity);
+  const cartQuantity = useSelector((state: RootState) => state.cart.items.length);
   const wishlistQuantity = useSelector((state: RootWishlistState) => state.wishlist.totalQuantity);
 
   return (
@@ -22,11 +23,11 @@ function ResponsiveAppBar() {
         }}
       >
         <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex', gap: '10px' } }}>
-          <NavButton to="/" label="home" />
-          <NavButton to="/men" label="men"  />
-          <NavButton to="/women" label="women"  />
-          <NavButton to="/about" label="about"  />
-          <NavButton to="/contact" label="contact"  />
+          <NavButton to="/home" label="home" />
+          <NavButton to="/men" label="men" />
+          <NavButton to="/women" label="women" />
+          <NavButton to="/about" label="about" />
+          <NavButton to="/contact" label="contact" />
         </Box>
 
         <Box sx={{ flexGrow: 0, display: 'flex', gap: '35px', color: 'black' }}>
@@ -42,6 +43,7 @@ function ResponsiveAppBar() {
             quantity={cartQuantity}
             Icon={ShoppingCartIcon}
           />
+          <UserProfile />
         </Box>
       </Box>
     </Box>

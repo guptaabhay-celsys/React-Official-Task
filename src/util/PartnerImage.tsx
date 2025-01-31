@@ -13,6 +13,7 @@ const ImageBox = ({ image }: {image: string}) => {
         height: '120px',
         width: '162px',
         borderRadius: '10px',
+        cursor: 'pointer'
       }}
     />
   );

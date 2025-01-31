@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Box, TextField, Typography, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { useDispatch } from 'react-redux';
@@ -6,22 +6,11 @@ import { filterProducts } from '../../store/productsSlice';
 
 const HeaderWithSearchBar = () => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [debouncedTerm, setDebouncedTerm] = useState('');
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedTerm(searchTerm);
-    }, 300);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [searchTerm]);
-
-  useEffect(() => {
-    dispatch(filterProducts(debouncedTerm));
-  }, [debouncedTerm, dispatch]);
+  const handleSearch = () => {
+    dispatch(filterProducts(searchTerm));
+  };
 
   return (
     <Box
@@ -69,7 +58,9 @@ const HeaderWithSearchBar = () => {
                   zIndex: 2,
                   fontSize: '20px !important',
                   boxSizing: 'unset',
+                  cursor: 'pointer',
                 }}
+                onClick={handleSearch}
               />
             </InputAdornment>
           ),

@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useEffect } from "react";
-import { setWishlist, RootWishlistState } from "../store/wishlistSlice";
+import { useState, useContext, useEffect } from "react";
 import {
-  addItemToWishlistThunk,
-  deleteItemFromWishlistThunk,
-} from "../../backend/util/handleWishlist";
+  RootWishlistState,
+  deleteItemFromWishlist,
+  addItemToWishlist,
+} from "../store/wishlistSlice";
 import {
   Card,
   CardActionArea,
@@ -16,75 +16,167 @@ import {
   Box,
   Snackbar,
   Alert,
+  CircularProgress,
 } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { NavLink } from "react-router-dom";
+import { addItemToCart } from "../store/cartSlice";
+import { RootState as RootCartState } from "../store/cartSlice";
+import AuthContext from "../context/AuthContext";
 
 type ProdCardType = {
-  id: string | number;
+  product_id: string | number;
   image: string;
   name: string;
   price: number;
+  quantity: number;
   currencyFormatter: Intl.NumberFormat;
 };
 
-const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType) => {
-  const [notification, setNotification] = useState({ open: false, message: "" });
+const ProductCard = ({
+  product_id,
+  image,
+  name,
+  price,
+  quantity,
+  currencyFormatter,
+}: ProdCardType) => {
   const [isFavorited, setIsFavorited] = useState(false);
-
+  const [notification, setNotification] = useState({
+    open: false,
+    message: "",
+  });
+  const [loadingCart, setLoadingCart] = useState(false);
+  const [loadingWishlist, setLoadingWishlist] = useState(false);
   const dispatch = useDispatch();
-  const wishlistItems = useSelector((state: RootWishlistState) => state.wishlist.items);
+  const wishlistItems = useSelector(
+    (state: RootWishlistState) => state.wishlist.items
+  );
+  const cartItems = useSelector((state: RootCartState) => state.cart.items);
+  const { userInfo } = useContext(AuthContext);
 
   useEffect(() => {
-    setIsFavorited(wishlistItems.some((item) => item.product_id === id));
-  }, [wishlistItems, isFavorited]);
+    const isProdPresent = wishlistItems.some(
+      (item) => item.product_id === product_id
+    );
+    setIsFavorited(isProdPresent);
+  }, [wishlistItems, product_id]);
 
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      const userId = 1;
-      try {
-        const response = await fetch(`http://localhost:3000/wishlist/products?userId=${userId}`);
-        if (!response.ok) throw new Error("Failed to fetch wishlist");
-        const data = await response.json();
-        console.log(data.data);
-        dispatch(setWishlist({ items: data.data, totalQuantity: data.data.length }));
-      } catch (error) {
-        console.error("Error fetching wishlist:", error);
-      }
+  const addToCartHandler = async () => {
+    setLoadingCart(true);
+    const userId = userInfo?.id;
+    const product = {
+      product_id,
+      name,
+      price: Number(price),
+      image,
+      userId,
+      quantity: 1,
     };
-  
-    fetchWishlist();
-  }, [dispatch]); 
 
-  const toggleFavoriteHandler = async () => {
-    const userId = 1;
-    const product = { id, image, name, price, userId };
-  
+    const authToken = localStorage.getItem("authToken");
+
     try {
-      if (wishlistItems.some(item => item.product_id === id)) {
-        await dispatch(deleteItemFromWishlistThunk({ productId: id, userId })).unwrap();
-  
-        const updatedWishlist = wishlistItems.filter(item => item.product_id !== id);
-        dispatch(setWishlist({ items: updatedWishlist, totalQuantity: updatedWishlist.length }));
-  
-        setNotification({ open: true, message: "Product removed from wishlist!" });
-        setIsFavorited(false);
+      const response = await fetch("http://localhost:3000/cart/add-to-cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify(product),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        dispatch(addItemToCart(product));
+        setNotification({
+          open: true,
+          message: "Product added to cart successfully!",
+        });
       } else {
-        await dispatch(addItemToWishlistThunk(product)).unwrap();
-  
-        const updatedWishlist = [...wishlistItems, product];
-        dispatch(setWishlist({ items: updatedWishlist, totalQuantity: updatedWishlist.length }));
-  
-        setNotification({ open: true, message: "Product added to wishlist!" });
-        setIsFavorited(true);
+        throw new Error(data.message || "Failed to add product to cart.");
       }
     } catch (error) {
-      console.error(isFavorited ? "Failed to remove from wishlist:" : "Failed to add to wishlist:", error);
-      setNotification({ open: true, message: `Failed to ${isFavorited ? "remove" : "add"} product from wishlist.` });
+      console.error("Error adding to cart:", error);
+      setNotification({
+        open: true,
+        message: "Error adding product to cart. Please try again.",
+      });
+    } finally {
+      setLoadingCart(false);
     }
   };
-  
+
+  const toggleFavoriteHandler = async () => {
+    setLoadingWishlist(true);
+    const userId = userInfo?.id;
+    const product = { product_id, image, name, price, userId };
+    const authToken = localStorage.getItem("authToken");
+
+    try {
+      if (isFavorited) {
+        const response = await fetch(
+          "http://localhost:3000/wishlist/remove-from-wishlist",
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({ productId: product_id, userId }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+          dispatch(deleteItemFromWishlist(product_id));
+          setIsFavorited(false);
+          setNotification({
+            open: true,
+            message: "Product removed from wishlist!",
+          });
+        } else {
+          throw new Error(data.message || "Failed to remove product from wishlist.");
+        }
+      } else {
+        const response = await fetch(
+          "http://localhost:3000/wishlist/add-to-wishlist",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authToken}`,
+            },
+            body: JSON.stringify(product),
+          }
+        );
+
+        const data = await response.json();
+
+        if (data.success) {
+          dispatch(addItemToWishlist(product));
+          setIsFavorited(true);
+          setNotification({
+            open: true,
+            message: "Product added to wishlist!",
+          });
+        } else {
+          throw new Error(data.message || "Failed to add product to wishlist.");
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling wishlist status:", error);
+      setNotification({
+        open: true,
+        message: "Error updating wishlist. Please try again.",
+      });
+    } finally {
+      setLoadingWishlist(false);
+    }
+  };
 
   const handleCloseNotification = () => {
     setNotification({ open: false, message: "" });
@@ -93,7 +185,7 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
   return (
     <>
       <Card
-        key={id}
+        key={product_id}
         sx={{
           borderRadius: "2px",
           border: "1px solid #e0e0e0",
@@ -111,8 +203,15 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
             justifyContent: "space-between",
           }}
         >
-          <Box sx={{ position: "relative", width: "100%", height: "250px", overflow: "hidden" }}>
-            <NavLink to={`/product-details/${id}`}>
+          <Box
+            sx={{
+              position: "relative",
+              width: "100%",
+              height: "250px",
+              overflow: "hidden",
+            }}
+          >
+            <NavLink to={`/product-details/${product_id}`}>
               <CardMedia
                 component="img"
                 image={image}
@@ -132,11 +231,18 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
                 bottom: "8px",
                 right: "8px",
                 color: isFavorited ? "red" : "inherit",
-                backgroundColor: "rgba(68, 68, 68, 0.28)",
+                backgroundColor: "rgba(255, 255, 255, 0.7)",
                 borderRadius: "50%",
               }}
+              disabled={loadingWishlist}
             >
-              {wishlistItems.some(item => item.product_id === id) ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+              {loadingWishlist ? (
+                <CircularProgress size={24} sx={{ color: "red" }} />
+              ) : isFavorited ? (
+                <FavoriteIcon />
+              ) : (
+                <FavoriteBorderIcon />
+              )}
             </IconButton>
           </Box>
           <CardContent
@@ -165,7 +271,10 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
             >
               {name}
             </Typography>
-            <Typography variant="body2" sx={{ fontSize: "18px", color: "#000" }}>
+            <Typography
+              variant="body2"
+              sx={{ fontSize: "18px", color: "#000" }}
+            >
               Price: {currencyFormatter.format(price)}
             </Typography>
             <Button
@@ -179,9 +288,16 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
                 width: "150px",
                 alignSelf: "center",
               }}
-              onClick={() => {}}
+              onClick={() => addToCartHandler()}
+              disabled={cartItems.some((item) => item.product_id === product_id)}
             >
-              Add to Cart
+              {loadingCart ? (
+                <CircularProgress size={24} sx={{ color: "white", backgroundColor: "transparent" }} />
+              ) : (
+                <>
+                  {cartItems.some((item) => item.product_id === product_id) ? "Product Added" : "Add to Cart"}
+                </>
+              )}
             </Button>
           </CardContent>
         </CardActionArea>
@@ -193,7 +309,11 @@ const ProductCard = ({ id, image, name, price, currencyFormatter }: ProdCardType
         onClose={handleCloseNotification}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseNotification} severity="success" sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleCloseNotification}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
           {notification.message}
         </Alert>
       </Snackbar>

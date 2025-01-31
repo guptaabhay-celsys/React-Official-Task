@@ -8,31 +8,31 @@ type ItemType = {
     name: string;
   };
 
-export const fetchItemFromWishlist = async (userId: number) => {
-    try {
-      const response = await fetch(`http://localhost:3000/wishlist/products?userId=${userId}`);
-      const data = await response.json();
+// export const fetchItemFromWishlist = async (userId: number) => {
+//     try {
+//       const response = await fetch(`http://localhost:3000/wishlist/products?userId=${userId}`);
+//       const data = await response.json();
   
-      return data;
-    } catch (error) {
-      console.error('Error fetching wishlist items:', error);
-      return { success: false, data: [] };
-    }
-  };
+//       return data;
+//     } catch (error) {
+//       console.error('Error fetching wishlist items:', error);
+//       return { success: false, data: [] };
+//     }
+//   };
   
 
-export const checkWishlistStatus = async (userId: number, productId: string | number) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3000/wishlist/check-wishlist-status?userId=${userId}&productId=${productId}`
-      );
-      const data = await response.json();
-      if (data.success) return data.isWishlisted;
-    } catch (error) {
-      console.error("Error checking wishlist status:", error);
-    }
-    return false;
-};
+// export const checkWishlistStatus = async (userId: number, productId: string | number) => {
+//     try {
+//       const response = await fetch(
+//         `http://localhost:3000/wishlist/check-wishlist-status?userId=${userId}&productId=${productId}`
+//       );
+//       const data = await response.json();
+//       if (data.success) return data.isWishlisted;
+//     } catch (error) {
+//       console.error("Error checking wishlist status:", error);
+//     }
+//     return false;
+// };
   
 
 export const addItemToWishlistThunk = createAsyncThunk(

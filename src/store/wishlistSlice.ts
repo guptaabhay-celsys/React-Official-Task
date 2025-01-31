@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addItemToWishlistThunk, deleteItemFromWishlistThunk } from "../../backend/util/handleWishlist";
 
-type ItemType = {
+export type ItemType = {
+  quantity: number;
   product_id: string | number;
   id: string | number;
   price: number;
@@ -30,11 +30,7 @@ const wishlistSlice = createSlice({
     addItemToWishlist(state, action) {
       const newItem = action.payload;
       state.totalQuantity++;
-      const existingItem = state.items.find(item => item.id === newItem.id);
-
-      if (!existingItem) {
-        state.items.push(newItem);
-      }
+      state.items = [...state.items, newItem];
     },
     deleteItemFromWishlist(state, action) {
       const id = action.payload;
@@ -42,16 +38,13 @@ const wishlistSlice = createSlice({
       state.items = state.items.filter(item => item.id !== id);
     },
     setWishlist(state, action) {
-      state.items = action.payload.items;
-      state.totalQuantity = action.payload.totalQuantity;
+      const { items, totalQuantity } = action.payload;
+      state.items = items.map((item: ItemType) => ({
+        ...item,
+      }));
+      state.totalQuantity = totalQuantity;
     },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(addItemToWishlistThunk.fulfilled, (state, action) => {
-      })
-      .addCase(deleteItemFromWishlistThunk.fulfilled, (state, action) => {
-      });
+    
   },
 });
 

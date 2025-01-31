@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import Typography from '@mui/material/Typography';
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import { Element } from 'react-scroll';
 import { currencyFormatter } from './formatting';
+import { RootState } from '../store/productsSlice';
 
 type ProductCardsType = {
   style: React.CSSProperties;
@@ -12,12 +14,17 @@ type ProductCardsType = {
   navigationType: React.ReactNode;
   cosmetic: React.CSSProperties;
   text: string;
+  currentPage: number;
+  filterMenProducts: any;
+  filterWomenProducts: any;
 };
 
 type Product = {
   id: number;
   name: string;
   price: number;
+  quantity: number;
+  stock: number;
   image_url: string;
   gender: string;
 };
@@ -28,51 +35,76 @@ export default function MultiActionAreaCard({
   navigationType,
   cosmetic,
   text,
+  currentPage,
+  filterMenProducts,
+  filterWomenProducts
 }: ProductCardsType) {
-  const [products, setProducts] = useState<Product[]>([]);
+  const products = useSelector((state: RootState) => state.products.products);
+  const filteredProducts = useSelector((state: RootState) => state.products.filteredProducts);
   const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
   const [showAll, setShowAll] = useState(false);
   const location = useLocation();
 
   const isWomenPage = location.pathname === '/women';
   const isMenPage = location.pathname === '/men';
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === '/home';
+
+  const productsToDisplay = filteredProducts.length > 0 ? filteredProducts : displayedProducts;
+
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/products');
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
-        }
-        const data: Product[] = await response.json();
-        setProducts(data);
-
-        setDisplayedProducts(data.slice(0, 15));
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+    if (products.length > 0) {
+      setDisplayedProducts(products.slice(0, 16));
+    }
+  }, [products]);
 
   const filterProducts = (productsList: Product[]) => {
     if (isWomenPage) {
-      return products.filter((product) => product.gender === 'Female');
+      return filterWomenProducts;
     }
     if (isMenPage) {
-      return products.filter((product) => product.gender === 'Male');
+      return filterMenProducts;
     }
     return productsList;
   };
 
-  const productsToDisplay = filterProducts(displayedProducts);
+  const filteredDisplayProducts = filterProducts(products);
 
-  const handleShowAllProducts = () => {
-    setDisplayedProducts(products);
-    setShowAll(true);
+  const handleToggleProducts = () => {
+    if (showAll) {
+      setDisplayedProducts(products.slice(0, 16));
+    } else {
+      setDisplayedProducts(products);
+    }
+    setShowAll(!showAll);
   };
+
+  const productsPerPage = 6;
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredDisplayProducts.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const productsToRender = isHomePage ? productsToDisplay : currentProducts;
+
+  if (displayedProducts.length === 0) {
+    return (
+      <Typography
+        variant="body2"
+        sx={{
+          textAlign: 'center',
+          fontSize: '16px !important',
+          paddingBottom: isHomePage ? '70px' : '0px',
+          fontWeight: '500',
+          fontFamily: 'Rokkitt, Georgia, serif',
+          ...cosmetic,
+        }}
+      >
+        <Box display="flex" justifyContent="center" alignItems="center" height="50vh">
+          <CircularProgress sx={{ color: '#88b8bc' }} />
+        </Box>
+      </Typography>
+    );
+  }
 
   return (
     <Element name="home-products">
@@ -84,18 +116,6 @@ export default function MultiActionAreaCard({
           ...menStyle,
         }}
       >
-        <Typography
-          variant="h4"
-          sx={{
-            textAlign: 'center',
-            paddingBottom: isHomePage ? '70px' : '0px',
-            fontWeight: '700',
-            fontFamily: 'Rokkitt, Georgia, serif',
-            ...cosmetic,
-          }}
-        >
-          {text}
-        </Typography>
 
         <Box
           sx={{
@@ -107,14 +127,15 @@ export default function MultiActionAreaCard({
             width: '100%',
           }}
         >
-          {productsToDisplay.length > 0 ? (
-            productsToDisplay.map((product) => (
+          {productsToRender.length > 0 ? (
+            productsToRender.map((product: { id: string | number; image_url: string; name: string; price: number; quantity: number; }) => (
               <ProductCard
                 key={product.id}
-                id={product.id}
+                product_id={product.id}
                 image={product.image_url}
                 name={product.name}
                 price={product.price}
+                quantity={product.quantity}
                 currencyFormatter={currencyFormatter}
               />
             ))
@@ -132,11 +153,28 @@ export default function MultiActionAreaCard({
           )}
         </Box>
 
-        {!showAll && (
-            <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <div onClick={handleShowAllProducts}>{navigationType}</div>
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        {isHomePage && (
+            <Box
+              onClick={handleToggleProducts}
+              sx={{
+                cursor: 'pointer',
+                padding: '20px 30px',
+                backgroundColor: 'rgb(97, 97, 97)',
+                color: 'white',
+                borderRadius: '50px',
+                textAlign: 'center',
+                fontSize: '16px',
+                letterSpacing: '1px',
+                '&:hover': {
+                  backgroundColor: '#000000',
+                },
+              }}
+            >
+              {showAll ? 'See Less Products' : 'Shop All Products'}
             </Box>
-        )}
+          )}
+        </Box>
       </Box>
     </Element>
   );

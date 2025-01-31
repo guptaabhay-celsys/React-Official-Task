@@ -15,7 +15,7 @@ export default function HomePage(){
       <Quote />
       <CategoryCards />
       <MultiActionAreaCard text='Best Sellers' cosmetic={{ fontSize: '40px', textTransform: 'uppercase', color: '#000' }}
-      navigationType={<ShopButton cosmetic={{ padding: '18px 36px', fontSize: '14px', letterSpacing: '1px', textTransform: 'capitalize' }}>Shop All Products</ShopButton>} style={{ width: 'calc(100% - 150px)', margin: '0px auto', paddingTop: '98px', paddingBottom: '98px' }} menStyle={{}} />
+      navigationType={<ShopButton cosmetic={{ padding: '18px 36px', fontSize: '14px', letterSpacing: '1px', textTransform: 'capitalize' }}>Shop All Products</ShopButton>} style={{ width: 'calc(100% - 150px)', margin: '0px auto', paddingTop: '98px', paddingBottom: '98px' }} menStyle={{}} currentPage={0} filterMenProducts={[]} filterWomenProducts={[]} />
       {isPartnersPresent && <Partners cosmetic={{ width: 'calc(100% - 150px)', margin: '0px auto' }} data={[]} text="" />}
     </Box>
   );

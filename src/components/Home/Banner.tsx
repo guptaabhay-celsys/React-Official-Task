@@ -15,19 +15,19 @@ const textSets = [
     backgroundImage: image,
   },
   {
-    title1: "Huge",
-    title2: "Sale",
-    subtitle: "50% Off",
-    description: "Big sale sandals",
-    backgroundImage: image2,
-  },
-  {
     title1: "New",
     title2: "Arrival",
     subtitle: "Up to 30% Off",
     description: "New stylish shoes for men",
-    backgroundImage: image1,
+    backgroundImage: image2,
   },
+  {
+    title1: "Huge",
+    title2: "Sale",
+    subtitle: "50% Off",
+    description: "Big sale sandals",
+    backgroundImage: image1,
+  }
 ];
 
 const BannerWithImage = () => {

@@ -13,7 +13,7 @@ export default function CompleteIcon(){
       <Typography variant='body1' sx={{marginBottom: '24px', fontSize: '32px', fontFamily: 'Rokkit, Georgia, serif', lineHeight: '1.5', backgroundColor: '#595959', color: 'white', padding: '2px 5px'}}>Thank you for purchasing, Your order is complete.</Typography>
       <Box sx={{display:'flex', gap: '8px'}}>
         <ShopButton cosmetic={{backgroundColor: 'white', border: '1px solid #616161 !important;', '&:hover' : {color: 'white'}, boxShadow: 'none'}}>
-          <NavLink to= '/' className="link-hover-white">Home</NavLink>
+          <NavLink to= '/orders' className="link-hover-white">See Orders</NavLink>
         </ShopButton>
         <ShopButton cosmetic={{backgroundColor: 'white', color: '#616161', border: '1px solid #616161 !important;', '&:hover' : {color: 'white'}, boxShadow: 'none'}}><ShoppingCartOutlinedIcon />
           <NavLink to= '/men' className="link-hover-white">

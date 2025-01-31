@@ -1,7 +1,6 @@
 import { Box, Typography, Grid, Select, FormControl, InputLabel, MenuItem, Popper, PopperProps, MenuProps } from "@mui/material";
 import CustomTextField from "../../util/CustomTextField";
-import RadioButton from "../../util/RadioButton";
-import { SetStateAction, RefAttributes, useState } from "react";
+import { SetStateAction, useState } from "react";
 
 const customMenuProps: Partial<MenuProps> = {
   PopoverClasses: {
@@ -24,7 +23,6 @@ const customMenuProps: Partial<MenuProps> = {
 
 export default function RegisterForm() {
   const [selectedValue, setSelectedValue] = useState("");
-
   const handleRadioChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     setSelectedValue(event.target.value);
   };
@@ -84,9 +82,10 @@ export default function RegisterForm() {
             },
           }}
           defaultValue=""
+          required
           MenuProps={customMenuProps}
         >
-          <MenuItem value="" disabled>Select Country</MenuItem> {/* Placeholder option */}
+          <MenuItem value="" disabled>Select Country</MenuItem>
           <MenuItem value="India">India</MenuItem>
           <MenuItem value="United States">United States</MenuItem>
           <MenuItem value="Australia">Australia</MenuItem>
@@ -131,21 +130,6 @@ export default function RegisterForm() {
           <CustomTextField label="PHONE NUMBER" placeholder="Your Phone Number" style={{ fontSize: '13px' }} multiline={false} rows={0} />
         </Grid>
       </Grid>
-
-      <RadioButton
-        label="CREATE AN ACCOUNT?"
-        name="account"
-        value="createAccount"
-        checkedValue={selectedValue}
-        onChange={handleRadioChange}
-        style={{ color: '#595959' }} cosmetic={{}}      />
-      <RadioButton
-        label="SHIP TO DIFFERENT ADDRESS"
-        name="account"
-        value="shipDifferentAddress"
-        checkedValue={selectedValue}
-        onChange={handleRadioChange}
-        style={{ color: '#595959' }} cosmetic={{}}      />
     </Box>
   );
 }

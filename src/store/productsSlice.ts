@@ -1,10 +1,21 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 export type InitialProductType = {
-  id: string | number,
-  name: string,
-  price: number,
-  image: string
+  id: number;
+  product_id: number;
+  name: string;
+  price: number;
+  quantity: number;
+  stock: number;
+  image_url: string;
+  description: string;
+  gender: string;
+  available_sizes: number[];
+  colors_available: string[];
+  material: string;
+  technology: string;
+  brand_name: string;
+  category: string;
 }
 
 type InitialStateType = {

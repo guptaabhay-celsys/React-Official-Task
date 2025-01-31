@@ -7,13 +7,13 @@ type NavIconType = {
   label: string,
   quantity: number,
   Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
-    muiName: string }
+    muiName: string
+  }
 }
 
 // eslint-disable-next-line react/prop-types
-const NavWithIcon = ({ to, label, quantity, Icon, }: NavIconType) => (
+const NavWithIcon = ({ to, label, quantity, Icon }: NavIconType) => (
   <Box sx={{ flexGrow: 0, display: 'flex', gap: '5px', color: 'black' }}>
-      
     <Typography sx={{ letterSpacing: '2px', fontSize: '14px' }}>
       <NavLink
         to={to}
@@ -22,7 +22,8 @@ const NavWithIcon = ({ to, label, quantity, Icon, }: NavIconType) => (
           textDecoration: "none",
         })}
       >
-        <Icon style = {{verticalAlign: 'bottom', fontSize: '20px'}} /> {label} [{quantity}]
+        <Icon style={{ verticalAlign: 'bottom', fontSize: '20px' }} />
+        {label} [{quantity}]
       </NavLink>
     </Typography>
   </Box>

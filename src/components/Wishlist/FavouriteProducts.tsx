@@ -1,53 +1,110 @@
-import { Box, Typography, IconButton, Button, Snackbar, Alert } from "@mui/material";
+import { Box, Typography, IconButton, Button, Snackbar, Alert, CircularProgress } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
-import { useState } from "react";
+import { useContext, useState} from "react";
 import { currencyFormatter } from "../../util/formatting";
-import { RootWishlistState, setWishlist } from "../../store/wishlistSlice";
-import { cartActions, RootState } from "../../store/cartSlice";
+import { deleteItemFromWishlist, ItemType, RootWishlistState } from "../../store/wishlistSlice";
+import { addItemToCart, RootState } from "../../store/cartSlice";
 import { useNavigate } from "react-router-dom";
-import { deleteItemFromWishlistThunk } from "../../../backend/util/handleWishlist";
+import AuthContext from "../../context/AuthContext";
 
 export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProperties }) {
   const wishlistItems = useSelector((state: RootWishlistState) => state.wishlist.items);
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  // const [wishlist, setWishlist] = useState(wishlistItems);
   const [notification, setNotification] = useState({ open: false, message: "" });
+  const [loadingCart, setLoadingCart] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userInfo } = useContext(AuthContext);
+  const authToken = localStorage.getItem('authToken');
+
+  // useEffect(() => {
+  //   setWishlist(wishlistItems);
+  // }, [wishlistItems]);
 
   const handleRemove = async (id: string | number) => {
     try {
-      await dispatch(deleteItemFromWishlistThunk({ productId: id, userId: 1 })).unwrap();
-
-      const updatedWishlist = wishlistItems.filter(item => item.id !== id);
-      console.log(updatedWishlist);
-      dispatch(setWishlist({ items: updatedWishlist, totalQuantity: updatedWishlist.length }));
+      if (wishlistItems.some((item) => item.product_id === id)) {
+        const response = await fetch(
+          "http://localhost:3000/wishlist/remove-from-wishlist",
+          {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${authToken}`,
+            },
+            body: JSON.stringify({ productId: id, userId: userInfo?.id }),
+          }
+        );
   
-      setNotification({ open: true, message: "Product removed from Wishlist" });
+        const data = await response.json();
+  
+        if (data.success) {
+          // setWishlist((prevWishlist) => prevWishlist.filter((item) => item.product_id !== id));
+          dispatch(deleteItemFromWishlist(id));
+          setNotification({ open: true, message: "Product removed from wishlist!" });
+        } else {
+          throw new Error("Failed to remove item from wishlist.");
+        }
+      }
     } catch (error) {
-      console.error("Error removing item:", error);
+      console.error("Error removing item from wishlist:", error);
+      setNotification({
+        open: true,
+        message: "Error removing product from wishlist. Please try again.",
+      });
     }
   };
   
 
-  const addToCartHandler = (id: string | number, image: string, name: string, price: number) => {
-    const isAdded = cartItems.some((cartItem) => cartItem.id === id);
-    if (!isAdded) {
-      dispatch(
-        cartActions.addItemToCart({
-          id,
-          image,
-          name,
-          price,
-        })
-      );
-      navigate("/cart");
-    }
-  };
+  const addToCartHandler = async ( product : ItemType) => {
+    setLoadingCart(true);
+    console.log(product);
+  
+    const authToken = localStorage.getItem("authToken");
+  
+    try {
 
-  const showNotification = (message: string) => {
-    setNotification({ open: true, message });
-  };
+      const productWithUserId = {
+        ...product,
+        userId: userInfo?.id,
+      };
+
+      console.log(productWithUserId);
+  
+      const response = await fetch("http://localhost:3000/cart/add-to-cart", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify(productWithUserId),
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        dispatch(addItemToCart(product));
+        setNotification({
+          open: true,
+          message: "Product added to cart successfully!",
+        });
+      } else {
+        throw new Error(data.message || "Failed to add product to cart.");
+      }
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+      setNotification({
+        open: true,
+        message: "Error adding product to cart. Please try again.",
+      });
+    } finally {
+      setLoadingCart(false);
+    }
+  };  
+  
 
   const handleCloseNotification = () => {
     setNotification({ open: false, message: "" });
@@ -57,13 +114,10 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
     <Box sx={{ margin: "20px auto", ...cosmetic }}>
       {wishlistItems.length > 0 ? (
         wishlistItems.map((item) => {
-          const { id, name, price, image } = item;
-
-          const isAdded = cartItems.some((cartItem) => cartItem.id === id);
-
+          const { name, price, image, product_id } = item;
           return (
             <Box
-              key={id}
+              key={product_id}
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -114,20 +168,30 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
                 <Button
                   variant="contained"
                   sx={{
-                    backgroundColor: isAdded ? "#bdbdbd" : "#616161",
+                    backgroundColor: "#616161",
                     borderRadius: "4px",
                     color: "white",
                     textTransform: "none",
                     marginTop: "10px",
+                    width: "150px",
+                    alignSelf: "center",
                   }}
-                  onClick={() => addToCartHandler(id, image, name, price)}
-                  disabled={isAdded}
+                  onClick={() => addToCartHandler(item)}
+                  disabled={loadingCart || cartItems.some((item) => item.product_id === product_id)}
                 >
-                  {isAdded ? "Product Added" : "Add to Cart"}
+                  {loadingCart ? (
+                    <CircularProgress size={24} sx={{ color: "white", backgroundColor: "transparent" }} />
+                  ) : (
+                    <>
+                      {cartItems.some((item) => item.product_id === product_id)
+                        ? "Product Added"
+                        : "Add to Cart"}
+                    </>
+                  )}
                 </Button>
 
                 <IconButton
-                  onClick={() => handleRemove(id)}
+                  onClick={() => handleRemove(product_id)}
                   sx={{ color: "#595959" }}
                 >
                   <Close />
@@ -152,7 +216,7 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
 
       <Snackbar
         open={notification.open}
-        autoHideDuration={1000}
+        autoHideDuration={3000}
         onClose={handleCloseNotification}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >

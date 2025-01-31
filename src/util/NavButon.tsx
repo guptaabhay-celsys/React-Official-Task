@@ -10,7 +10,7 @@ type NavButtonType = {
 const NavButton = ({ to, label }: NavButtonType) => {
   const location = useLocation();
 
-  const activePaths = ["/", "/men", "/women", "/about", "/contact"];
+  const activePaths = ["/home", "/men", "/women", "/about", "/contact"];
   const isActive = activePaths.includes(location.pathname);
 
   return (
