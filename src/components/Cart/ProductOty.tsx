@@ -82,7 +82,7 @@ export default function ProductSection() {
         try {
           const userId = userInfo?.id;
           const response = await fetch("http://localhost:3000/cart/remove-from-cart", {
-            method: "POST",
+            method: "DELETE",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
