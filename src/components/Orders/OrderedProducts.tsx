@@ -1,6 +1,7 @@
 import { Box, Typography, CircularProgress } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { currencyFormatter } from "../../util/formatting";
+import AuthContext from "../../context/AuthContext";
 
 type OrderItem = {
   order_id: number;
@@ -16,11 +17,13 @@ export default function OrderedProducts({ cosmetic }: { cosmetic: React.CSSPrope
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [notification, setNotification] = useState({ open: false, message: "" });
   const authToken = localStorage.getItem("authToken");
+  const { userInfo } = useContext(AuthContext);
 
   useEffect(() => {
+    if (userInfo?.id){
     const fetchOrderItems = async () => {
       try {
-        const response = await fetch("http://localhost:3000/orders/products", {
+        const response = await fetch(`http://localhost:3000/orders/products?userId=${userInfo.id}`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -43,6 +46,7 @@ export default function OrderedProducts({ cosmetic }: { cosmetic: React.CSSPrope
     } else {
       setIsLoading(false); 
     }
+  }
   }, [authToken]);
 
   return (

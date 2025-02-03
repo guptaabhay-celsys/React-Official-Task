@@ -1,4 +1,4 @@
-import { Box, Typography, IconButton, Snackbar, Alert, CircularProgress } from "@mui/material";
+import { Box, Typography, IconButton, Snackbar, Alert } from "@mui/material";
 import { RemoveCircleOutline, AddCircleOutline, Close } from "@mui/icons-material";
 import { currencyFormatter } from "../../util/formatting";
 import { updateItemQuantity, deleteItemFromCart, RootState as RootCartState, setCart, CartState } from "../../store/cartSlice";
@@ -82,7 +82,7 @@ export default function ProductSection() {
         try {
           const userId = userInfo?.id;
           const response = await fetch("http://localhost:3000/cart/remove-from-cart", {
-            method: "POST",
+            method: "DELETE",
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${token}`,
@@ -110,6 +110,7 @@ export default function ProductSection() {
   };
 
   const handleRemove = async (id: string | number) => {
+    console.log(id);
     try {
       const userId = userInfo?.id;
       const response = await fetch("http://localhost:3000/cart/remove-from-cart", {
@@ -171,7 +172,6 @@ export default function ProductSection() {
   const clearError = () => {
     setError({ id: null, message: "" });
   };
-console.log(cartItems,'cartItems');
   return (
     <Box sx={{ margin: "20px auto" }}>
     {cartItems.length > 0 ? (

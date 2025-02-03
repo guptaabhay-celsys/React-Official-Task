@@ -115,7 +115,7 @@ export default function BillingSection() {
             dispatch(setCart({ items: [], totalAmount: 0, totalQuantity: 0 }));
             for (let item of cartItems) {
               await fetch("http://localhost:3000/cart/remove-from-cart", {
-                method: "POST",
+                method: "DELETE",
                 headers: {
                   "Content-Type": "application/json",
                   Authorization: `Bearer ${authToken}`,
@@ -181,10 +181,9 @@ export default function BillingSection() {
             sx={{
               backgroundColor: 'white',
               borderRadius: '4px',
-              fontSize: '13px',
-              padding: '8px 12px',
+              padding: '12px',
               boxShadow: 'none',
-              height: '40px',
+              height: '55px',
               '& .MuiOutlinedInput-notchedOutline': {
                 border: 'none',
               },

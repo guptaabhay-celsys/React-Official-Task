@@ -20,7 +20,7 @@ type ProductCardsType = {
 };
 
 type Product = {
-  id: number;
+  id: number | string;
   name: string;
   price: number;
   quantity: number;
@@ -85,7 +85,6 @@ export default function MultiActionAreaCard({
   const currentProducts = filteredDisplayProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const productsToRender = isHomePage ? productsToDisplay : currentProducts;
-
   if (displayedProducts.length === 0) {
     return (
       <Typography

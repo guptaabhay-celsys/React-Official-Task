@@ -56,12 +56,12 @@ const ProductCard = ({
   const cartItems = useSelector((state: RootCartState) => state.cart.items);
   const { userInfo } = useContext(AuthContext);
 
-  useEffect(() => {
-    const isProdPresent = wishlistItems.some(
-      (item) => item.product_id === product_id
-    );
-    setIsFavorited(isProdPresent);
-  }, [wishlistItems, product_id]);
+  // useEffect(() => {
+  //   const isProdPresent = wishlistItems.some(
+  //     (item) => item.product_id === product_id
+  //   );
+  //   setIsFavorited(isProdPresent);
+  // }, [wishlistItems, product_id]);
 
   const addToCartHandler = async () => {
     setLoadingCart(true);
@@ -88,8 +88,9 @@ const ProductCard = ({
       });
 
       const data = await response.json();
-
+      console.log(data);
       if (data.success) {
+        console.log(product);
         dispatch(addItemToCart(product));
         setNotification({
           open: true,
@@ -116,7 +117,7 @@ const ProductCard = ({
     const authToken = localStorage.getItem("authToken");
 
     try {
-      if (isFavorited) {
+      if (wishlistItems.some(item => item.product_id === product_id)) {
         const response = await fetch(
           "http://localhost:3000/wishlist/remove-from-wishlist",
           {
@@ -230,7 +231,7 @@ const ProductCard = ({
                 position: "absolute",
                 bottom: "8px",
                 right: "8px",
-                color: isFavorited ? "red" : "inherit",
+                color: wishlistItems.some(item => item.product_id === product_id) ? "red" : "inherit",
                 backgroundColor: "rgba(255, 255, 255, 0.7)",
                 borderRadius: "50%",
               }}
@@ -238,7 +239,7 @@ const ProductCard = ({
             >
               {loadingWishlist ? (
                 <CircularProgress size={24} sx={{ color: "red" }} />
-              ) : isFavorited ? (
+              ) : wishlistItems.some(item => item.product_id === product_id) ? (
                 <FavoriteIcon />
               ) : (
                 <FavoriteBorderIcon />
@@ -289,7 +290,7 @@ const ProductCard = ({
                 alignSelf: "center",
               }}
               onClick={() => addToCartHandler()}
-              disabled={cartItems.some((item) => item.product_id === product_id)}
+              disabled={loadingCart || cartItems.some((item) => item.product_id === product_id)}
             >
               {loadingCart ? (
                 <CircularProgress size={24} sx={{ color: "white", backgroundColor: "transparent" }} />

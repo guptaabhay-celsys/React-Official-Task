@@ -1,8 +1,7 @@
 import {createSlice} from '@reduxjs/toolkit';
 
 export type InitialProductType = {
-  id: number;
-  product_id: number;
+  id: string | number;
   name: string;
   price: number;
   quantity: number;

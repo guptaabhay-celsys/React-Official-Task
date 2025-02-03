@@ -53,7 +53,7 @@ const decodeJwt = (token: string) => {
 
 function App() {
   const dispatch = useDispatch();
-  const { setUserInfo } = useContext(AuthContext); // You will use setUserInfo to store user data globally.
+  const { setUserInfo } = useContext(AuthContext);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("authToken");
@@ -61,14 +61,13 @@ function App() {
   useEffect(() => {
     if (token) {
       const decodedToken = decodeJwt(token);
-
       if (decodedToken && decodedToken.exp * 1000 > Date.now()) {
         setIsAuthenticated(true);
         setUserInfo({
           id: decodedToken.id,
           name: decodedToken.name,
           email: decodedToken.email,
-        }); // Storing user info in the global context.
+        });
       } else {
         localStorage.removeItem("authToken");
         setIsAuthenticated(false);
@@ -78,12 +77,12 @@ function App() {
     }
 
     setIsLoading(false);
-  }, [token, setUserInfo]); // Dependencies updated to include setUserInfo to prevent stale closures.
+  }, [token, setUserInfo]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetch("http://localhost:3000/products");
+        const response = await fetch(`http://localhost:3000/products`);
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }

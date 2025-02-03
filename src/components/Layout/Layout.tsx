@@ -6,12 +6,13 @@ import Discount from './Discount';
 import ShiftUpButton from '../../util/ShiftUpButton';
 import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setWishlist } from '../../store/wishlistSlice';
+import { ItemType, setWishlist } from '../../store/wishlistSlice';
 import { setCart } from '../../store/cartSlice';
 
 type CartItem = {
+  product: any;
   product_id: string | number;
   id: string;
   price: number | string;
@@ -26,6 +27,7 @@ const Layout = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    // console.log(localStorage.getItem("authToken"));
     if (userInfo?.id) {
       const fetchWishlist = async () => {
         try {
@@ -40,17 +42,26 @@ const Layout = () => {
             }
           );
           if (!response.ok) throw new Error("Failed to fetch wishlist");
+      
           const data = await response.json();
+      
+          const processedWishlistItems: ItemType[] = data.data.map((item: ItemType) => ({
+            ...item,
+            product_id: item.product?.id,
+          }));
+      
+          console.log(processedWishlistItems, "wishlist items");
+      
           dispatch(
             setWishlist({
-              items: data.data,
-              totalQuantity: data.data.length,
+              items: processedWishlistItems,
+              totalQuantity: processedWishlistItems.length,
             })
           );
         } catch (error) {
           console.error("Error fetching wishlist:", error);
         }
-      };
+      };      
   
       const fetchCart = async () => {
         try {
@@ -65,20 +76,24 @@ const Layout = () => {
             }
           );
           if (!response.ok) throw new Error("Failed to fetch cart data");
-  
+      
           const data = await response.json();
-  
+      
           const processedItems: CartItem[] = data.data.map((item: CartItem) => {
             const price = parseFloat(item.price as string) || 0;
             const quantity = item.quantity || 1;
+      
             return {
               ...item,
+              product_id: item.product?.id,
               price,
               quantity,
               totalPrice: price * quantity,
             };
           });
-  
+      
+          console.log(processedItems, "cart items");
+          
           dispatch(
             setCart({
               items: processedItems,
@@ -96,6 +111,7 @@ const Layout = () => {
           console.error("Error fetching cart data:", error);
         }
       };
+      
   
       fetchWishlist();
       fetchCart();

@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export type ItemType = {
+  product: any;
   quantity: number;
   product_id: string | number;
-  id: string | number;
   price: number;
   image: string;
   name: string;
@@ -35,7 +35,7 @@ const wishlistSlice = createSlice({
     deleteItemFromWishlist(state, action) {
       const id = action.payload;
       state.totalQuantity--;
-      state.items = state.items.filter(item => item.id !== id);
+      state.items = state.items.filter(item => item.product_id !== id);
     },
     setWishlist(state, action) {
       const { items, totalQuantity } = action.payload;
@@ -43,8 +43,8 @@ const wishlistSlice = createSlice({
         ...item,
       }));
       state.totalQuantity = totalQuantity;
+      console.log(JSON.parse(JSON.stringify(state)))
     },
-    
   },
 });
 
