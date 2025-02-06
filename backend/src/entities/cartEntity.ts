@@ -14,11 +14,11 @@ export class Cart {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @ManyToOne(() => Users, (user) => user.wishlist, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Users, (user) => user.cart, { onDelete: 'CASCADE' })
     @JoinColumn({ name: "user_id" })
     user!: Users;
 
-    @ManyToOne(() => Products, (product) => product.wishlist)
+    @ManyToOne(() => Products, (product) => product.cart)
     @JoinColumn({ name: "product_id" })
     product!: Products;
 
