@@ -12,21 +12,8 @@ import { addItemToCart } from "../../store/cartSlice";
 import { addItemToWishlist, deleteItemFromWishlist } from "../../store/wishlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { RootWishlistState } from "../../store/wishlistSlice";
-import { RootState as RootCartState } from "../../store/cartSlice";
-
-interface Product {
-  id: string | number;
-  name: string;
-  description: string;
-  price: number;
-  image_url: string;
-  available_sizes: number[];
-}
-
-interface ProductDetailProps {
-  product: Product;
-}
+import { RootCartState, RootWishlistState } from "../../types";
+import { ProductDetailProps, ProductInfo } from "../../types";
 
 const ProductDetail: React.FC<ProductDetailProps> = ({ product }) => {
   const { id, name, description, price, image_url, available_sizes } = product;

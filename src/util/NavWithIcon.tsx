@@ -1,15 +1,6 @@
-import { Typography, Box, SvgIconTypeMap } from '@mui/material';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
+import { Typography, Box } from '@mui/material';
 import { NavLink } from 'react-router-dom';
-
-type NavIconType = {
-  to: string,
-  label: string,
-  quantity: number,
-  Icon: OverridableComponent<SvgIconTypeMap<{}, "svg">> & {
-    muiName: string
-  }
-}
+import { NavIconType } from '../types';
 
 // eslint-disable-next-line react/prop-types
 const NavWithIcon = ({ to, label, quantity, Icon }: NavIconType) => (

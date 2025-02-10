@@ -1,7 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import {
-  RootWishlistState,
   deleteItemFromWishlist,
   addItemToWishlist,
 } from "../store/wishlistSlice";
@@ -22,17 +21,8 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { NavLink } from "react-router-dom";
 import { addItemToCart } from "../store/cartSlice";
-import { RootState as RootCartState } from "../store/cartSlice";
+import { RootCartState, ProdCardType, RootWishlistState } from "../types";
 import AuthContext from "../context/AuthContext";
-
-type ProdCardType = {
-  product_id: string | number;
-  image: string;
-  name: string;
-  price: number;
-  quantity: number;
-  currencyFormatter: Intl.NumberFormat;
-};
 
 const ProductCard = ({
   product_id,
@@ -55,13 +45,6 @@ const ProductCard = ({
   );
   const cartItems = useSelector((state: RootCartState) => state.cart.items);
   const { userInfo } = useContext(AuthContext);
-
-  // useEffect(() => {
-  //   const isProdPresent = wishlistItems.some(
-  //     (item) => item.product_id === product_id
-  //   );
-  //   setIsFavorited(isProdPresent);
-  // }, [wishlistItems, product_id]);
 
   const addToCartHandler = async () => {
     setLoadingCart(true);
@@ -88,9 +71,7 @@ const ProductCard = ({
       });
 
       const data = await response.json();
-      console.log(data);
       if (data.success) {
-        console.log(product);
         dispatch(addItemToCart(product));
         setNotification({
           open: true,

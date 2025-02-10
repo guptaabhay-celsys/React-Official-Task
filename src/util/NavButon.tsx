@@ -1,11 +1,7 @@
 /* eslint-disable react/prop-types */
 import Button from "@mui/material/Button";
 import { NavLink, useLocation } from "react-router-dom";
-
-type NavButtonType = {
-  to: string,
-  label: string
-}
+import { NavButtonType } from "../types";
 
 const NavButton = ({ to, label }: NavButtonType) => {
   const location = useLocation();

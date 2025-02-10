@@ -12,6 +12,14 @@ router.get('/products', async (req: Request, res: Response) => {
     }
   })
 
+router.post('/products/filter', async (req: Request, res: Response) => {
+  try {
+    await productsController.filterProducts(req, res);
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error", error });
+  }
+})
+
 router.post('/update-quantity', async (req: Request, res: Response) => {
     try {
       await productsController.updateQuantity(req, res);

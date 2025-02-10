@@ -4,17 +4,10 @@ import Partners from '../util/Partners'
 import ProductsCart from '../components/Cart/ProductsCart'
 import Breadcrumb from '../util/NavigatedPath';
 import { useEffect, useState } from "react";
-
-type Product = {
-  id: string | number;
-  name: string;
-  price: number;
-  image_url: string;
-  gender: string;
-};
+import { cartProduct } from '.././types';
 
 export default function CartPage(){
-  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
+  const [displayedProducts, setDisplayedProducts] = useState<cartProduct[]>([]);
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -22,7 +15,7 @@ export default function CartPage(){
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }
-        const data: Product[] = await response.json();
+        const data: cartProduct[] = await response.json();
         setDisplayedProducts(data.slice(0, 4));
       } catch (error) {
         console.error('Error fetching products:', error);

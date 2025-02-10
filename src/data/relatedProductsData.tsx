@@ -1,8 +1,8 @@
 import { useSelector } from "react-redux";
-import { InitialProductType, RootState } from "../store/productsSlice";
+import { InitialProductType, RootProductState } from ".././types";
 
 const RelatedProductsData = () => {
-  const products: InitialProductType[] = useSelector((state: RootState) => state.products.products);
+  const products: InitialProductType[] = useSelector((state: RootProductState) => state.products.products);
   return products.slice(0, 4);
 };
 

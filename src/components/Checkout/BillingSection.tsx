@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { currencyFormatter } from "../../util/formatting";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/cartSlice";
+import { RootCartState } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { setCart } from "../../store/cartSlice";
 import {
@@ -45,9 +45,9 @@ export default function BillingSection() {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [termsChecked, setTermsChecked] = useState(false);
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartItems = useSelector((state: RootCartState) => state.cart.items);
   console.log(cartItems);
-  const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
+  const totalAmount = useSelector((state: RootCartState) => state.cart.totalAmount);
   const discount = totalAmount * 0.1;
   const navigate = useNavigate();
   const dispatch = useDispatch();

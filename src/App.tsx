@@ -21,24 +21,7 @@ import NotFoundPage from "./util/NotFoundPage";
 import AuthContext from "./context/AuthContext";
 import ProfilePage from "./pages/ProfilePage";
 import OrdersPage from './pages/OrdersPage'
-
-type Product = {
-  id: number;
-  product_id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  stock: number;
-  image_url: string;
-  description: string;
-  gender: string;
-  available_sizes: number[];
-  colors_available: string[];
-  material: string;
-  technology: string;
-  brand_name: string;
-  category: string;
-}
+import { InitialProductType } from "./types";
 
 const decodeJwt = (token: string) => {
   try {
@@ -86,7 +69,7 @@ function App() {
         if (!response.ok) {
           throw new Error("Failed to fetch products");
         }
-        const data: Product[] = await response.json();
+        const data: InitialProductType[] = await response.json();
         dispatch(setProducts(data));
       } catch (error) {
         console.error("Error fetching products:", error);

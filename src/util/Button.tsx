@@ -1,11 +1,5 @@
 import { Button} from "@mui/material"
-
-type ShopButtonProps = {
-  children: React.ReactNode;
-  cosmetic?: React.CSSProperties;
-  disabled?: boolean;
-  onClick?: () => void;
-};
+import { ShopButtonProps } from "../types"
 
 // eslint-disable-next-line react/prop-types
 export default function ShopButton({ children, cosmetic, disabled }: ShopButtonProps){

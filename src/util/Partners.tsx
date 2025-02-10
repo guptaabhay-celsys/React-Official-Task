@@ -9,20 +9,7 @@ import partner4 from '../assets/images/brand-4.jpg';
 import partner5 from '../assets/images/brand-5.jpg';
 import ProductCard from "./ProductCard";
 import { NavLink } from "react-router-dom";
-
-type PartnersType = {
-  cosmetic: React.CSSProperties,
-  data: Product[],
-  text: string
-}
-
-type Product = {
-  id: string | number;
-  name: string;
-  price: number;
-  image_url: string;
-  gender: string;
-};
+import { PartnersType } from "../types";
  
 export default function Partners({ cosmetic, data, text }: PartnersType) {
   const images = [

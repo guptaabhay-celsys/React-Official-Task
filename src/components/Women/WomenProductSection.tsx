@@ -1,30 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, List, ListItem, Grid, Checkbox, FormControlLabel } from '@mui/material';
 import PaginationOutlined from "../Men/Pagination";
 import MultiActionAreaCard from "../../util/ProductCards";
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/productsSlice';
-
-type Filter = {
-  id: string;
-  name: string;
-  items?: string[];
-  subcategories?: { items: string[] }[];
-};
-
-type FilterState = {
-  type: string;
-  items: string[];
-};
-
-type Product = {
-  gender: string;
-  brand_name: string;
-  available_sizes: number[];
-  colors_available: string[];
-  material: string;
-  technology: string;
-};
+import { Filter, FilterState, Product } from '../../types';
 
 export const filters: Filter[] = [
   {
@@ -60,7 +38,6 @@ export const filters: Filter[] = [
 
 export default function MenProductSection() {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const products = useSelector((state: RootState) => state.products.products);
   const [activeFilters, setActiveFilters] = useState<FilterState[]>([
     { type: 'brand_name', items: [] },
     { type: 'color', items: [] },
@@ -68,54 +45,66 @@ export default function MenProductSection() {
     { type: 'technology', items: [] },
     { type: 'material', items: [] },
   ]);
-  const womenProducts = products.filter((product: Product) => product.gender === 'Female');
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
-  const handleSelect = (filterType: string, item: string): void => {
-    setActiveFilters((prevFilters) => {
-      const updatedFilters = [...prevFilters];
-      const filter = updatedFilters.find((f) => f.type === filterType);
-      if (filter) {
-        if (filter.items.includes(item)) {
-          filter.items = filter.items.filter((selectedItem) => selectedItem !== item);
-        } else {
-          filter.items.push(item);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  
+    useEffect(() => {
+      const fetchFilteredProducts = async () => {
+        try {
+          const response = await fetch("http://localhost:3000/products/filter", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              filters: activeFilters,
+          }),
+          });
+  
+          if (!response.ok) {
+            throw new Error("Failed to fetch filtered products");
+          }
+  
+          const data = await response.json();
+          console.log(data);
+          setFilteredProducts(data);
+        } catch (error) {
+          console.error("Error fetching filtered products:", error);
         }
-      }
-      return updatedFilters;
-    });
-
-    setSelectedItems((prevSelectedItems) =>
-      prevSelectedItems.includes(item)
-        ? prevSelectedItems.filter((selectedItem) => selectedItem !== item)
-        : [...prevSelectedItems, item]
-    );
-  };
-
-  const filteredProducts = womenProducts.filter((product: Product) => {
-    return activeFilters.every((filter: FilterState) => {
-      if (filter.items.length === 0) return true;
-
-      switch (filter.type) {
-        case 'brand_name':
-          return filter.items.includes(product.brand_name);
-        case 'size':
-          return product.available_sizes.some((size) => filter.items.includes(size.toString()));
-        case 'color':
-          return product.colors_available.some((color) => filter.items.includes(color));
-        case 'material':
-          return filter.items.includes(product.material);
-        case 'technology':
-          return filter.items.includes(product.technology);
-        default:
-          return true;
-      }
-    });
-  });
+      };
+  
+      fetchFilteredProducts();
+    }, [activeFilters, currentPage]);
+  
+  
+    const handleSelect = (filterType: string, item: string): void => {
+      setActiveFilters((prevFilters) => {
+        return prevFilters.map((filter) => {
+          if (filter.type === filterType) {
+            return {
+              ...filter,
+              items: filter.items.includes(item)
+                ? filter.items.filter((selectedItem) => selectedItem !== item)
+                : [...filter.items, item],
+            };
+          }
+          return filter;
+        });
+      });
+  
+      setSelectedItems((prevSelectedItems) =>
+        prevSelectedItems.includes(item)
+          ? prevSelectedItems.filter((selectedItem) => selectedItem !== item)
+          : [...prevSelectedItems, item]
+      );
+    };
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, value: number): void => {
     setCurrentPage(value);
   };
+
+  const filteredWomenProducts = filteredProducts.filter((product: Product) => product.gender === 'Female');
 
   return (
     <>
@@ -195,11 +184,11 @@ export default function MenProductSection() {
             cosmetic={{}}
             text=""
             currentPage={currentPage}
-            filterWomenProducts={filteredProducts} filterMenProducts={[]}          />
+            filterWomenProducts={filteredWomenProducts} filterMenProducts={[]}          />
         </Box>
       </Box>
 
-      <PaginationOutlined handlePageChange={handlePageChange} count={Math.ceil(filteredProducts.length / 6)} />
+      <PaginationOutlined handlePageChange={handlePageChange} count={Math.ceil(filteredWomenProducts.length / 6)} />
     </>
   );
 }

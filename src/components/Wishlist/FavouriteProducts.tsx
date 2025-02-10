@@ -3,14 +3,15 @@ import { Close } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
 import { useContext, useState} from "react";
 import { currencyFormatter } from "../../util/formatting";
-import { deleteItemFromWishlist, ItemType, RootWishlistState } from "../../store/wishlistSlice";
-import { addItemToCart, RootState } from "../../store/cartSlice";
+import { deleteItemFromWishlist } from "../../store/wishlistSlice";
+import { RootWishlistState, RootCartState, wishlistItemType } from "../../types";
+import { addItemToCart } from "../../store/cartSlice";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
 
 export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProperties }) {
   const wishlistItems = useSelector((state: RootWishlistState) => state.wishlist.items);
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartItems = useSelector((state: RootCartState) => state.cart.items);
   // const [wishlist, setWishlist] = useState(wishlistItems);
   const [notification, setNotification] = useState({ open: false, message: "" });
   const [loadingCart, setLoadingCart] = useState(false);
@@ -19,10 +20,6 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
   const navigate = useNavigate();
   const { userInfo } = useContext(AuthContext);
   const authToken = localStorage.getItem('authToken');
-
-  // useEffect(() => {
-  //   setWishlist(wishlistItems);
-  // }, [wishlistItems]);
 
   const handleRemove = async (id: string | number) => {
     try {
@@ -42,7 +39,6 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
         const data = await response.json();
   
         if (data.success) {
-          // setWishlist((prevWishlist) => prevWishlist.filter((item) => item.product_id !== id));
           dispatch(deleteItemFromWishlist(id));
           setNotification({ open: true, message: "Product removed from wishlist!" });
         } else {
@@ -59,7 +55,7 @@ export default function ProductSection({ cosmetic }: { cosmetic: React.CSSProper
   };
   
 
-  const addToCartHandler = async ( product : ItemType) => {
+  const addToCartHandler = async ( product : wishlistItemType) => {
     setLoadingCart(true);
     console.log(product);
   

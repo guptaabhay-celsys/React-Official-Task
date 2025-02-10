@@ -2,17 +2,7 @@ import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import { Typography } from "@mui/material";
-import { SetStateAction } from "react";
-
-export type RadioButtonType = {
-  label: string,
-  name: string,
-  value: string,
-  checkedValue: string,
-  onChange: (event: { target: { value: SetStateAction<string>; }; }) => void,
-  style: React.CSSProperties,
-  cosmetic: React.CSSProperties
-}
+import { RadioButtonType } from "../types";
 
 // eslint-disable-next-line react/prop-types
 export default function RadioButton({ label, name, value, checkedValue, onChange, style, cosmetic }: RadioButtonType) {

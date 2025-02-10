@@ -1,20 +1,18 @@
 import { Box, Typography, IconButton, Snackbar, Alert } from "@mui/material";
 import { RemoveCircleOutline, AddCircleOutline, Close } from "@mui/icons-material";
 import { currencyFormatter } from "../../util/formatting";
-import { updateItemQuantity, deleteItemFromCart, RootState as RootCartState, setCart, CartState } from "../../store/cartSlice";
+import { updateItemQuantity, deleteItemFromCart } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import CouponSection from "./CouponSection";
-import { useContext, useState, useEffect } from "react";
-import { RootState } from "../../store/productsSlice";
+import { useContext, useState } from "react";
+import { RootProductState, RootCartState } from "../../types";
 import AuthContext from "../../context/AuthContext";
 
 // eslint-disable-next-line react/prop-types
 export default function ProductSection() {
-  const products = useSelector((state: RootState) => state.products.products);
-  // const [removedItems, setRemovedItems] = useState<Set<string | number>>(new Set());
+  const products = useSelector((state: RootProductState) => state.products.products);
   const cartItems = useSelector((state: RootCartState) => state.cart.items);
-  const [isAdded, setIsAdded] = useState(false);
   const [notification, setNotification] = useState({ open: false, message: "" });
   const { userInfo } = useContext(AuthContext);
   const [error, setError] = useState<{ id: string | number | null; message: string }>({
@@ -23,16 +21,6 @@ export default function ProductSection() {
   });
   const dispatch = useDispatch();
   const token = localStorage.getItem("authToken");
-  // const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     if (cartItems.length > 0) {
-//       setLoading(false);
-//     }
-//   }, [cartItems]);
-//   useEffect(()=>{
-// console.log(cartItems,'cartItems')
-//   },[dispatch])
 
   const handleUpdateCart = async (id: string | number, quantity: number) => {
     try {
@@ -126,31 +114,9 @@ export default function ProductSection() {
 
       if (data.success) {
         dispatch(deleteItemFromCart(id));
-        // setRemovedItems((prev) => new Set(prev).add(id));
 
         showNotification("Product removed from cart!");
        console.log(cartItems, 'these are cart items')
-//-------------->
-        // setCart((prevState: CartState) => {
-        //   const updatedItems = prevState.items.filter(
-        //     (item: { product_id: string | number }) => item.product_id !== id
-        //   );
-
-        //   const updatedTotalQuantity = updatedItems.reduce(
-        //     (acc: any, item: { quantity: any }) => acc + item.quantity, 0
-        //   );
-        //   const updatedTotalAmount = updatedItems.reduce(
-        //     (acc: number, item: { price: number; quantity: number }) => acc + (item.price * item.quantity), 0
-        //   );
-// ---->
-          // console.log(updatedItems, 'these are updated items');
-        //   return {
-        //     ...prevState,
-        //     items: updatedItems,
-        //     totalQuantity: updatedTotalQuantity,
-        //     totalAmount: updatedTotalAmount,
-        //   };
-        // });
       } else {
         console.error(data.message || "Failed to remove product from cart");
         showNotification("Failed to remove product from cart!");
@@ -178,8 +144,6 @@ export default function ProductSection() {
         cartItems.map((item) => {
           const { name, price, image, quantity, product_id } = item;
           const total = price * quantity;
-
-          // const isRemoved = removedItems.has(product_id);
 
           return (
               <Box

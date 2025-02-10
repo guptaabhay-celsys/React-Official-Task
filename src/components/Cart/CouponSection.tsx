@@ -4,11 +4,11 @@ import ShopButton from "../../util/Button";
 import { currencyFormatter } from "../../util/formatting";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { RootState } from "../../store/cartSlice";
+import { RootCartState } from "../../types";
 
 export default function CouponSection() {
 
-  const totalAmount = useSelector((state: RootState) => state.cart.totalAmount);
+  const totalAmount = useSelector((state: RootCartState) => state.cart.totalAmount);
 
   const tableCellStyle = {
     textAlign: "center",

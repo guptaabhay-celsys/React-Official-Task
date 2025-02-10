@@ -61,7 +61,6 @@ const SignUpPage = () => {
       const result = await response.json();
   
       if (response.ok) {
-        alert("User registered successfully!");
         navigate("/");
       } else {
         alert(result.message || "Something went wrong.");

@@ -1,10 +1,6 @@
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-
-type PaginationProps = {
-  handlePageChange: (event: React.ChangeEvent<unknown>, value: number) => void;
-  count: number
-};
+import { PaginationProps } from '../../types';
 
 export default function PaginationOutlined({ handlePageChange, count }: PaginationProps) {
   return (

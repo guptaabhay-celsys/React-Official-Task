@@ -1,9 +1,5 @@
 import { Box, Typography } from "@mui/material";
-
-type PromotionBannerType = {
-  image: string, 
-  text: string
-}
+import { PromotionBannerType } from "../types";
 
 // eslint-disable-next-line react/prop-types
 export default function MensPromotionBanner({image, text}: PromotionBannerType){

@@ -4,17 +4,17 @@ import FlowDiagram from '../util/FlowDiagram'
 import Breadcrumb from "../util/NavigatedPath";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { RootState } from "../store/cartSlice";
+import { RootCartState } from "../types";
 
 export default function CheckoutPage(){
-  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartItems = useSelector((state: RootCartState) => state.cart.items);
   return (
     <>
       <Breadcrumb />
       {cartItems.length === 0 ? (
         <Box sx={{margin: '98px auto 196px auto', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center'}}>
           <Typography variant="body1" sx={{textAlign: 'center', fontSize: '36px', fontFamily: 'Montserrat, Arial, sans-serif',}}>Add Items to Proceed!</Typography>
-          <NavLink to='/'>
+          <NavLink to='/home'>
             <Button sx={{ color: '#616161', textDecoration: 'underline', letterSpacing: '0.5px'}}>View Products</Button>
           </NavLink>
         </Box>

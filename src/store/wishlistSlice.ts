@@ -1,22 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-export type ItemType = {
-  product: any;
-  quantity: number;
-  product_id: string | number;
-  price: number;
-  image: string;
-  name: string;
-};
-
-type InitialWishlistType = {
-  items: ItemType[];
-  totalQuantity: number;
-};
-
-export type RootWishlistState = {
-  wishlist: InitialWishlistType;
-};
+import { InitialWishlistType, wishlistItemType } from "../types";
 
 const initialWishlistState: InitialWishlistType = {
   items: [],
@@ -39,7 +22,7 @@ const wishlistSlice = createSlice({
     },
     setWishlist(state, action) {
       const { items, totalQuantity } = action.payload;
-      state.items = items.map((item: ItemType) => ({
+      state.items = items.map((item: wishlistItemType) => ({
         ...item,
       }));
       state.totalQuantity = totalQuantity;

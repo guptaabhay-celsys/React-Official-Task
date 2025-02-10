@@ -6,42 +6,19 @@ import { useLocation } from 'react-router-dom';
 import ProductCard from './ProductCard';
 import { Element } from 'react-scroll';
 import { currencyFormatter } from './formatting';
-import { RootState } from '../store/productsSlice';
-
-type ProductCardsType = {
-  style: React.CSSProperties;
-  menStyle: React.CSSProperties;
-  navigationType: React.ReactNode;
-  cosmetic: React.CSSProperties;
-  text: string;
-  currentPage: number;
-  filterMenProducts: any;
-  filterWomenProducts: any;
-};
-
-type Product = {
-  id: number | string;
-  name: string;
-  price: number;
-  quantity: number;
-  stock: number;
-  image_url: string;
-  gender: string;
-};
+import { RootProductState, ProductCardsType, cardProduct } from '../types';
 
 export default function MultiActionAreaCard({
   style,
   menStyle,
-  navigationType,
   cosmetic,
-  text,
   currentPage,
   filterMenProducts,
   filterWomenProducts
 }: ProductCardsType) {
-  const products = useSelector((state: RootState) => state.products.products);
-  const filteredProducts = useSelector((state: RootState) => state.products.filteredProducts);
-  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
+  const products = useSelector((state: RootProductState) => state.products.products);
+  const filteredProducts = useSelector((state: RootProductState) => state.products.filteredProducts);
+  const [displayedProducts, setDisplayedProducts] = useState<cardProduct[]>([]);
   const [showAll, setShowAll] = useState(false);
   const location = useLocation();
 
@@ -58,7 +35,7 @@ export default function MultiActionAreaCard({
     }
   }, [products]);
 
-  const filterProducts = (productsList: Product[]) => {
+  const filterProducts = (productsList: cardProduct[]) => {
     if (isWomenPage) {
       return filterWomenProducts;
     }

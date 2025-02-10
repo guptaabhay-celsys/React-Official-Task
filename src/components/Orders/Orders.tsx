@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Typography,
   Box,
@@ -35,7 +35,7 @@ const Orders = () => {
         My Orders
       </Typography>
       <HeaderSection />
-      <OrderedProducts cosmetic='' />
+      <OrderedProducts />
     </Box>
   );
 };

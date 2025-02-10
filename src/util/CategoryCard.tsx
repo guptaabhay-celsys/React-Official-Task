@@ -1,12 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { NavLink } from "react-router-dom";
-import { StringMappingType } from "typescript";
-
-type CategoryCardType = {
-  title: string,
-  link: string,
-  image: string
-}
+import { CategoryCardType } from "../types";
 
 // eslint-disable-next-line react/prop-types
 const CategoryCard = ({ title, link, image }: CategoryCardType) => (

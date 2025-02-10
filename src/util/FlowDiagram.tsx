@@ -6,22 +6,7 @@ import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import Typography from '@mui/material/Typography';
-
-type CustomizedSteppersType = {
-  activeStep: number,
-  cosmetic: React.CSSProperties
-}
-
-type CustomStepIconType = {
-  active: boolean,
-  completed: boolean,
-  icon: number
-}
-
-type OwnerStateType = {
-  active: boolean;
-  completed: boolean;
-};
+import { OwnerStateType, CustomStepIconType, CustomizedSteppersType } from '../types';
 
 const CustomConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {

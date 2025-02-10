@@ -8,26 +8,16 @@ import { useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { ItemType, setWishlist } from '../../store/wishlistSlice';
+import { setWishlist } from '../../store/wishlistSlice';
+import { wishlistItemType } from '../../types';
 import { setCart } from '../../store/cartSlice';
-
-type CartItem = {
-  product: any;
-  product_id: string | number;
-  id: string;
-  price: number | string;
-  image: string;
-  quantity: number;
-  totalPrice: number;
-  name: string;
-};
+import { CartItem } from '../../types';
 
 const Layout = () => {
   const { userInfo } = useContext(AuthContext);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // console.log(localStorage.getItem("authToken"));
     if (userInfo?.id) {
       const fetchWishlist = async () => {
         try {
@@ -45,12 +35,10 @@ const Layout = () => {
       
           const data = await response.json();
       
-          const processedWishlistItems: ItemType[] = data.data.map((item: ItemType) => ({
+          const processedWishlistItems: wishlistItemType[] = data.data.map((item: wishlistItemType) => ({
             ...item,
             product_id: item.product?.id,
           }));
-      
-          console.log(processedWishlistItems, "wishlist items");
       
           dispatch(
             setWishlist({
@@ -91,8 +79,6 @@ const Layout = () => {
               totalPrice: price * quantity,
             };
           });
-      
-          console.log(processedItems, "cart items");
           
           dispatch(
             setCart({

@@ -1,23 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-type CartItem = {
-  product_id: string | number;
-  price: number;
-  image: string; 
-  quantity: number;
-  totalPrice: number;
-  name: string;
-}
-
-export type CartState = {
-  items: CartItem[],
-  totalQuantity: number,
-  totalAmount: number
-}
-
-export interface RootState {
-  cart: CartState;
-}
+import { CartState, CartItem, RootCartState } from "../types";
 
 const initialCartState: CartState = {
   items: [],
@@ -43,7 +25,6 @@ const cartSlice = createSlice({
       const newItem = action.payload;
       const existingItem = state.items.find(item => item.product_id === newItem.product_id);
       state.totalQuantity++;
-      console.log(JSON.parse(JSON.stringify(state.items)));
       if (!existingItem) {
         state.items.push({
           product_id: newItem.product_id,
@@ -62,9 +43,8 @@ const cartSlice = createSlice({
     },
     removeItemFromCart(state, action) {
       const id = action.payload;
-      console.log(id);
       const existingItem = state.items.find(item => item.product_id === id);
-
+      
       if (existingItem) {
         state.totalQuantity--;
         existingItem.quantity--;
@@ -80,7 +60,6 @@ const cartSlice = createSlice({
     },
     deleteItemFromCart(state, action) {
       const id = action.payload;
-      console.log(id);
       const itemToRemove = state.items.find(item => item.product_id === id);
 
       if (itemToRemove) {

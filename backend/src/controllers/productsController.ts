@@ -9,6 +9,7 @@ export class ProductsController {
 
         this.getAllProducts = this.getAllProducts.bind(this);
         this.updateQuantity = this.updateQuantity.bind(this);
+        this.filterProducts = this.filterProducts.bind(this);
     }
 
 async getAllProducts(req: Request, res: Response) {
@@ -59,5 +60,17 @@ async updateQuantity(req: Request, res: Response) {
       return res.status(500).json({ message: errorMessage });
   }
 }
+
+async filterProducts(req: Request, res: Response) {
+  try {
+    const { filters } = req.body;
+
+    const filteredProducts = await this.productService.filterProducts(filters);
+    res.status(200).json(filteredProducts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Server Error");
+  }
+};
 
 }

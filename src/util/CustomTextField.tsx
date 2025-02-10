@@ -1,13 +1,5 @@
 import { Box, TextField, Typography } from '@mui/material';
-import React from 'react';
-
-type TextFieldType = {
-  label: string,
-  placeholder: string,
-  multiline: boolean,
-  rows: number,
-  style: React.CSSProperties
-}
+import { TextFieldType } from '../types';
 
 // eslint-disable-next-line react/prop-types
 const CustomTextField = ({ label, placeholder, multiline = false, rows = 1, style }: TextFieldType) => {

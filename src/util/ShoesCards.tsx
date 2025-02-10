@@ -1,11 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import ShopButton from './Button'
 import { Link } from "react-scroll";
-
-type ShoesCardType = {
-  image: string,
-  text: string
-}
+import { ShoesCardType } from "../types";
 
 // eslint-disable-next-line react/prop-types
 export default function ShoesCard({ image, text }: ShoesCardType) {

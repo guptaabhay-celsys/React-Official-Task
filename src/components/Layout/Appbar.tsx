@@ -4,12 +4,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useSelector } from 'react-redux';
 import NavButton from '../../util/NavButon';
 import NavWithIcon from '../../util/NavWithIcon';
-import { RootState } from '../../store/cartSlice';
-import { RootWishlistState } from '../../store/wishlistSlice';
+import { RootCartState, RootWishlistState } from '../../types';
 import UserProfile from '../../util/User';
 
 function ResponsiveAppBar() {
-  const cartQuantity = useSelector((state: RootState) => state.cart.items.length);
+  const cartQuantity = useSelector((state: RootCartState) => state.cart.items.length);
   const wishlistQuantity = useSelector((state: RootWishlistState) => state.wishlist.totalQuantity);
 
   return (

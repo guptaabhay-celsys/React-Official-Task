@@ -2,17 +2,9 @@ import { Box, Typography, CircularProgress } from "@mui/material";
 import { useState, useEffect, useContext } from "react";
 import { currencyFormatter } from "../../util/formatting";
 import AuthContext from "../../context/AuthContext";
+import { OrderItem } from "../../types";
 
-type OrderItem = {
-  order_id: number;
-  product_name: string;
-  total_price: number;
-  quantity: number;
-  order_date: string | Date;
-  status: string;
-};
-
-export default function OrderedProducts({ cosmetic }: { cosmetic: React.CSSProperties }) {
+export default function OrderedProducts() {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]); 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [notification, setNotification] = useState({ open: false, message: "" });

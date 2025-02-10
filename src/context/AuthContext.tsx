@@ -1,13 +1,5 @@
 import React, { createContext, ReactNode, useState, useEffect } from "react";
-
-interface AuthContextType {
-  userInfo: { id: string; name: string; email: string } | null;
-  setUserInfo: React.Dispatch<
-    React.SetStateAction<{ id: string; name: string; email: string } | null>
-  >;
-  authToken: string | null;
-  setAuthToken: React.Dispatch<React.SetStateAction<string | null>>;
-}
+import { AuthContextType } from ".././types";
 
 const AuthContext = createContext<AuthContextType>({
   userInfo: null,
